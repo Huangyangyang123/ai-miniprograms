@@ -1,0 +1,5 @@
+<!--pages/index.wxml-->
+<view class="container">
+  <text>欢迎来到我的小程序 👋</text>
+  <button bindtap="goNext">进入功能页</button>
+</view>

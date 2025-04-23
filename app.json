@@ -1,0 +1,9 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/feature/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "我的小程序"
+  }
+}
