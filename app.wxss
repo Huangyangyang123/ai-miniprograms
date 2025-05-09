@@ -1,1 +1,5 @@
 /* 全局样式 */
+page {
+  background-color: #f5f5f5; /*你想要的底色*/
+  min-height: 100vh;         /* 防止内容少时底色不铺满 */
+}

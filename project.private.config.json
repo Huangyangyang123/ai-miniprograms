@@ -3,5 +3,18 @@
   "projectname": "ai-miniprograms",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "报告生成页面",
+          "pathName": "pages/feature/index",
+          "query": "title=%E8%8B%B9%E6%9E%9C",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

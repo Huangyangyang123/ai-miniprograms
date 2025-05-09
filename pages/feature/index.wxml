@@ -1,2 +1,20 @@
 <!--pages/feature/index.wxml-->
-<text>pages/feature/index.wxml</text>
+<view class="wxml2canvas-container feature-container">
+  <view class="wxml2canvas-item section1">
+    <view class="wxml2canvas-item logo" data-text="苹果">苹果</view>
+    <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（AAPL）"> 
+      Stock Valuation Analysis Report（AAPL）
+    </view>
+    <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy 雷军">
+      Investment Recommendation: Buy 雷军</view>
+    <view class="wxml2canvas-item btn">
+      <button class="wxml2canvas-item" data-text="保存图片">保存图片</button>
+      <button class="wxml2canvas-item" data-text="分享">分享</button>
+    </view>
+    <!-- <image class="wxml2canvas-item image" src="{{filePath}}" /> -->
+  </view>
+
+  <button catchtap="generateSharingCard">生成画布内容</button>
+
+  <wxml2canvas id="wxml2canvas" />
+</view>

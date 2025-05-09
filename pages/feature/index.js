@@ -1,11 +1,13 @@
 // pages/feature/index.js
-Page({
+import serviceApi from '../../services/request'
+import { mockDatas } from '../../utils/mock.js';
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
-
+    filePath:''
   },
 
   /**
@@ -19,14 +21,49 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    this.initDatas()
+  },
 
+
+  async generateSharingCard(){
+    const canvas = this.selectComponent('#wxml2canvas');
+    await canvas.draw();
+    const filePath = await canvas.toTempFilePath();
+
+
+    const fs = wx.getFileSystemManager()
+    const that = this
+    fs.readFile({
+      filePath, // 这里可以直接使用 temp 路径
+      encoding: 'base64',
+      success(res) {
+        const base64Data = 'data:image/png;base64,' + res.data
+        console.log('base64Data==',base64Data)
+      that.setData({
+        filePath:base64Data
+      })
+        // 你可以将 base64Data 用作 image src，或上传
+      },
+      fail(err) {
+        console.error('读取文件失败', err)
+      }
+    })
+
+    console.log('filePath==',filePath)
+    wx.previewImage({
+      urls: [filePath],
+    });
+  },
+
+  async initDatas(){
+    // const res = await serviceApi(`/api/v1/stock/analysis/query/ticker_name=AAPL&date=2025-05-07`)
+    console.log('res==',mockDatas)
   },
 
   /**

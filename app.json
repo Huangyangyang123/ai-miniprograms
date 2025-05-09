@@ -4,6 +4,7 @@
     "pages/feature/index"
   ],
   "window": {
-    "navigationBarTitleText": "我的小程序"
+    "navigationBarTitleText": "我的小程序",
+    "navigationBarTextStyle":"black"
   }
 }

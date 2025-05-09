@@ -1,6 +1,6 @@
-const BASE_URL = 'https://api.example.com'//自己的请求域名
+const BASE_URL = 'https://hsbc.xiangshengyue.com'//自己的请求域名
 
-const request = (url, method = 'GET', data = {}) => {
+const serviceApi = (url, method = 'GET', data = {}) => {
   return new Promise((resolve, reject) => {
     wx.request({
       url: BASE_URL + url,
@@ -15,4 +15,4 @@ const request = (url, method = 'GET', data = {}) => {
   })
 }
 
-export default request
+export default serviceApi
