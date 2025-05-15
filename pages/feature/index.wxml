@@ -6,7 +6,6 @@
     </view>
     <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy">
       Investment Recommendation: Buy</view>
-    <!-- <image class="wxml2canvas-item image" src="{{filePath}}" /> -->
   </view>
   <view class="wxml2canvas-item section2 section">
     <view class="wxml2canvas-item title">
@@ -21,17 +20,17 @@
       {{mockDatas.business_description}}
     </view>
 
-    <view class="wxml2canvas-item border-style">
+    <view class="wxml2canvas-item border-style" data-text="Latest News">
       Latest News
     </view>
     <view class="wxml2canvas-item desc">
-      <view class="wxml2canvas-item">
+      <view class="wxml2canvas-item" data-text="Apple stock rose after tariff exemptions on smartphones and electronics were announced.">
         Apple stock rose after tariff exemptions on smartphones and electronics were announced.
-        <text class="wxml2canvas-item tag">Reuters</text> 
+        <text class="wxml2canvas-item tag" data-text="Reuters">Reuters</text> 
       </view>
     </view>
 
-    <view class="wxml2canvas-item link">
+    <view class="wxml2canvas-item link" data-text="https://www.reuters.com/technology/apple-shares-lead-tech-higher-after-tariff-exempti">
       https://www.reuters.com/technology/apple-shares-lead-tech-higher-after-tariff-exempti
     </view>
 
@@ -51,29 +50,33 @@
 
     <view class="wxml2canvas-item card">
       <view class="wxml2canvas-item header">
-        <view class="icon">📱</view>
-        <view class="wxml2canvas-item title">iPhone</view>
+        <view class="wxml2canvas-item icon" data-text="📱">📱</view>
+        <view class="wxml2canvas-item title" data-text="iPhone">iPhone</view>
       </view>
 
-      <view class="container">
+      <view class="container wxml2canvas-item">
         <!-- 左侧内容 -->
-        <view class="left">
-          <view class="subtitle">Revenue</view>
-            <view class="revenue">$200.62B</view>
-            <view class="change">
-              <text class="trend-icon">⬇</text> 
-              <text>-1.90% YoY</text>
+        <view class="left wxml2canvas-item">
+          <view class="subtitle wxml2canvas-item" data-text="Revenue">Revenue</view>
+            <view class="revenue wxml2canvas-item" data-text="$200.62B">$200.62B</view>
+            <view class="change wxml2canvas-item">
+              <text class="trend-icon wxml2canvas-item" data-text="⬇">⬇</text> 
+              <text class="wxml2canvas-item" data-text="-1.90% YoY">-1.90% YoY</text>
             </view>
         </view>
 
         <!-- 右侧内容 -->
-        <view class="right">
-          <view class="right-title">Gross Margins</view>
-          <canvas type="2d" id="ringCanvas" style="width: 150rpx; height: 150rpx;"></canvas>
-          <view class="label">
-            <view class="percentage">{{currentPercent}}%</view>
-            <view class="description">Approximately</view>
-            <view class="description">$78.84B</view>
+        <view class="right wxml2canvas-item">
+          <view class="right-title wxml2canvas-item" data-text="Gross Margins">Gross Margins</view>
+          <!-- type="2d" 使用2d会漂在页面上 不友好  -->
+          <canvas hidden="{{!showCavans}}" canvas-id="ringCanvas" id="ringCanvas" style="width: 150rpx; height: 150rpx;"></canvas>
+          
+          <image hidden="{{showCavans}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:150rpx;height:150rpx;" />
+          
+          <view class="label wxml2canvas-item">
+            <view class="percentage wxml2canvas-item" data-text="{{currentPercent}}%">{{currentPercent}}%</view>
+            <view class="description wxml2canvas-item" data-text="Approximately">Approximately</view>
+            <view class="description wxml2canvas-item" data-text="$78.84B">$78.84B</view>
           </view>
         </view>
       </view>
@@ -134,7 +137,7 @@ superior profitability and brand strength.</view>
         Projected revenues over the next five years
       </view>
       <view class="wxml2canvas-item section5-content">
-        <view class="section5-content-item" wx:for="{{section5}}" wx:key="index">
+        <view class="section5-content-item" wx:for="{{section5}}" wx:key="{{index}}">
           <view class="item-icon">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
           </view>
@@ -190,8 +193,6 @@ superior profitability and brand strength.</view>
       Risks include regulatory pressures, supply chain disruptions, 
 and competition intensifying.
     </view>
-    
-
   </view>
 
   <view class="wxml2canvas-item section6 section">
@@ -250,28 +251,50 @@ and competition intensifying.
         Compare with Market Price
       </view>
       <view class="wxml2canvas-item section5-content">
-        <view class="section7-content-item" wx:for="{{section7}}" wx:key="index">
+        <view class="section7-content-item" wx:for="{{section7}}" wx:key="{{index}}">
           <view class="item-value">
-            <view class="item-value-text">{{item.title}}</view>
-            <view class="item-value-text">{{item.desc}}</view>
+            <view class="item-value-text">
+              <view>{{item.title}}</view>
+              <view class="item-value-num"> $ {{item.value}} T </view>
+            </view>
             <view class="item-value-status">
               <view class="{{item.status == 'down' ? 'trend-icon' : 'icon-red'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
-              <view class="trend-text">~{{item.percent}}%</view>
-              <view class="trend-text">{{item.name}}</view>
+            </view>
+            <view class="item-value-desc">
+              <view class="item-value-desc-text">{{item.desc}}</view>
+              <view class="{{item.status == 'up' ? 'item-percent-red' : 'item-percent'}}"> $ {{item.percent}} </view>
             </view>
           </view>  
+        </view>
+
+        <view class="wxml2canvas-item Evaluation">
+          Evaluation
+        </view>
+        <view class="wxml2canvas-item Evaluation-desc">
+          Undervalued (Difference: +3.8%)
+        </view>
+      </view>
+    </view>
+
+    <view class="wxml2canvas-item item-introduction">
+      <view class="wxml2canvas-item" wx:for="{{section7Summarys}}" wx:key="{{index}}">
+        <view class="wxml2canvas-item item-title">
+          {{item.title}}
+        </view>
+        <view class="wxml2canvas-item item-desc">
+          {{item.desc}}
         </view>
       </view>
     </view>
   </view>
 
-  <!-- <button catchtap="generateSharingCard">生成画布内容</button> -->
+  <button catchtap="generateSharingCard">生成画布内容</button>
 
   <!-- 底部按钮 -->
-  <!-- <view class="btn">
+  <view class="btn">
     <button class="save public" data-text="保存图片">保存图片</button>
     <button class="share public" data-text="分享">分享</button>
-  </view> -->
+  </view>
 
   <wxml2canvas id="wxml2canvas" />
 </view>

@@ -251,6 +251,7 @@
   justify-content:flex-start;
 }
 
+
 .section3 canvas {
   display: block;
 }
@@ -443,12 +444,78 @@
 
 .section7{
   margin: 40rpx 0;
+  padding-bottom: 128rpx;
 }
 .section7 .last{
   margin: 20rpx 0;
 }
 .section7 .square{
   margin-top: -38px;
+}
+
+.section7 .section7-content-item{
+  width: 100%;
+  margin: 10rpx 0;
+}
+
+.section7 .section7-content-item .item-value{
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-end;
+  font-size: 24rpx;
+}
+
+.section7 .item-value-num{
+  margin-top: 20rpx;
+  font-size: 44rpx;
+}
+
+.section7 .item-value-desc{
+  font-family: Univers Next for HSBC;
+  font-weight: 100;
+  line-height: 150%;
+  color: #EDEDED;
+}
+
+.section7 .item-value-desc-text{
+  font-size: 24rpx;
+}
+
+.section7 .item-value-desc .item-percent{
+  font-size: 44rpx;
+  color: #EDEDED;
+}
+.section7 .item-percent-red{
+  font-size: 44rpx;
+  color: #DC2A31;
+  margin-top: 20rpx;
+}
+
+.section7 .Evaluation{
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+.section7 .Evaluation-desc{
+  font-size: 36rpx;
+  margin: 20rpx 0 0;
+}
+
+.section7 .item-introduction{
+  font-family: Univers Next for HSBC;
+  font-weight: 100;
+  line-height: 150%;
+  font-size: 28rpx;
+  color: #fff;
+}
+.section7 .item-introduction .item-title{
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #414143;
+}
+
+.section7 .item-introduction .item-desc{
+  margin: 44rpx 0;
+  font-size: 24rpx;
+  color: #EDEDED;
 }
 
 

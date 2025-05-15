@@ -52,14 +52,36 @@ Page({
         title:'Current Market Cap',
         desc:'Final Valuation',
         status:'up',
+        value:2.08,
         percent:3.15,
       },
       {
-        title:'Per Share Valuation',
-        desc:'Current Share Price',
+        title:'Current Share Price',
+        desc:'Per Share Valuation',
         status:'up',
+        value:198.15,
         percent:206.77,
       },
+    ],
+    section7Summarys:[
+      {
+        title:'Recommendations',
+        desc:'Investment Recommendation: Buy'
+      },
+      {
+        title:'Summary',
+        desc:`Apple Inc. demonstrates resilience through
+
+        diversified revenue streams and strong profitability. While 
+        hardware growth slows, services provide sustainable 
+        margins.A DCF-based valuation
+        
+        suggests slight undervaluation ($3.15T vs.$2.98T market cap), 
+        supported by qualitative strengths like brand loyalty and 
+        innovation leadership.With a current share price of $198.15 
+        and fair value at$206.77, AAPL presents a compelling buying 
+        opportunity`
+      }
     ],
     columnData2:[
       { value: 98.3, color: '#DC2A31', label: 'Year 1' },
@@ -68,6 +90,8 @@ Page({
       { value: 110.0, color: '#DC2A31', label: 'Year 4' },
       { value: 114.0, color: '#DC2A31', label: 'Year 5' }
     ],
+    ringCanvasImg:null,
+    showCavans:true,
     currentPercent: 0 // 当前百分比
   },
 
@@ -98,10 +122,12 @@ Page({
   },
 
   async generateSharingCard(){
+    // 等 image 加载完成后再截图
+    this.setData({ showCavans: false });
+
     const canvas = this.selectComponent('#wxml2canvas');
     await canvas.draw();
     const filePath = await canvas.toTempFilePath();
-
 
     const fs = wx.getFileSystemManager()
     const that = this
@@ -122,9 +148,11 @@ Page({
     })
 
     console.log('filePath==',filePath)
+    
     wx.previewImage({
       urls: [filePath],
     });
+
   },
 
   async initDatas(){
@@ -136,92 +164,101 @@ Page({
   },
 
   initRings() {
-    const query = wx.createSelectorQuery();
-    const dpr = wx.getSystemInfoSync().pixelRatio; // 获取设备像素比
 
-    query.select('#ringCanvas')
-      .fields({ node: true, size: true })
-      .exec(res => {
-        const canvas = res[0].node;
-        const ctx = canvas.getContext('2d');
-        const width = res[0].width;
-        const height = res[0].height;
+    const ctx = wx.createCanvasContext('ringCanvas');
+    const width = 75;  // 画布宽度（单位 px，和 wxml 保持一致，150rpx≈75px，建议用 px 单位）
+    const height = 75;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = width / 2 - 20;
+    const lineWidth = 10;
+    const target = 39.3; // 目标百分比
+    let current = 0;
 
+    function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      const dashCount = Math.floor(len / (dashLen + gapLen));
+      const dashX = dx / dashCount;
+      const dashY = dy / dashCount;
+      for (let i = 0; i < dashCount; i++) {
+        const startX = x1 + dashX * i;
+        const startY = y1 + dashY * i;
+        const endX = startX + (dashX * dashLen) / (dashLen + gapLen);
+        const endY = startY + (dashY * dashLen) / (dashLen + gapLen);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.setStrokeStyle('#DC2A31');
+        ctx.setLineWidth(1);
+        ctx.stroke();
+      }
+    }
 
-        // 设置画布宽高
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        ctx.scale(dpr, dpr);
+    const draw = (percent) => {
+    ctx.clearRect(0, 0, width, height);
 
-        const centerX = width / 2;
-        const centerY = height / 2;
-        const radius = width / 2 - 20;
-        const lineWidth = 10;
-        const target = 39.3; // 目标百分比
-        let current = 0;
+    // 背景圆环
+    ctx.beginPath();
+    ctx.setLineWidth(lineWidth);
+    ctx.setStrokeStyle('#888');
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.stroke();
 
-        const draw = (percent) => {
-          
-          ctx.clearRect(0, 0, width, height);
+    // 红色环
+    const start = -Math.PI / 2;
+    const end = start + (2 * Math.PI * percent / 100);
+    ctx.beginPath();
+    ctx.setStrokeStyle('#DC2A31');
+    ctx.setLineWidth(lineWidth);
+    ctx.arc(centerX, centerY, radius, start, end);
+    ctx.stroke();
 
-          // 背景圆环
-          ctx.beginPath();
-          ctx.lineWidth = lineWidth;
-          ctx.strokeStyle = '#888';
-          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-          ctx.stroke();
+    // 虚线指引（从圆环终点向外延伸）
+    const angle = end;
+    const x1 = centerX + radius * Math.cos(angle) + 5;
+    const y1 = centerY + radius * Math.sin(angle) - 10;
 
-          // 红色环
-          const start = -Math.PI / 2;
-          const end = start + (2 * Math.PI * percent / 100);
-          ctx.beginPath();
-          ctx.strokeStyle = '#DC2A31';
-          ctx.arc(centerX, centerY, radius, start, end);
-          ctx.stroke();
+    // 第一段：沿圆弧方向延伸 18px
+    const len1 = 18;
+    const x2 = x1 + len1 * Math.cos(angle);
+    const y2 = y1 + len1 * Math.sin(angle);
 
-          // === 虚线连接线（横+竖） ===
-          const angle = end;
-          const dotX = centerX + radius * Math.cos(angle); // 圆弧末端的 X 坐标
-          const dotY = centerY + radius * Math.sin(angle); // 圆弧末端的 Y 坐标
+    // 第二段：水平向右 30px
+    const len2 = 30;
+    const x3 = x2 + len2;
+    const y3 = y2;
 
-          // 第一段：水平线向右 30px
-          const line1EndX = dotX + 15;
-          const line1EndY = dotY - 40;
+    // 绘制第一段虚线
+    drawDashedLine(ctx, x1, y1, x2, y2);
 
-          // 第二段：竖线向下 40px
-          const line2EndX = line1EndX + 15;
-          const line2EndY = line1EndY + 15;
+    // 绘制拐弯后的水平虚线
+    drawDashedLine(ctx, x2, y2, x3, y3);
 
-          ctx.beginPath();
-          ctx.setLineDash([1 * dpr, 1 * dpr]); // 根据设备像素比调整虚线
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = '#DC2A31';
-
-          // 水平部分
-          ctx.moveTo(dotX, dotY);
-          ctx.lineTo(line1EndX, line1EndY);
-
-          // 弯折竖向部分
-          ctx.lineTo(line2EndX, line2EndY);
-
-          ctx.stroke();
-          ctx.setLineDash([]); // 清除虚线设置
-        };
-
-        const animate = () => {
-          if (current >= target) {
-            this.setData({ currentPercent: target.toFixed(2) });
-            draw(target);
-            return;
-          }
-          current += 0.5;
-          this.setData({ currentPercent: current.toFixed(2) });
-          draw(current);
-          canvas.requestAnimationFrame(animate);
-        };
-
-        animate();
+    ctx.draw(false,()=>{
+      wx.canvasToTempFilePath({
+        canvasId: 'ringCanvas',
+        success: res => {
+          this.setData({ ringCanvasImg: res.tempFilePath });
+        }
       });
+    });
+  };
+
+  const animate = () => {
+    if (current >= target) {
+      this.setData({ currentPercent: target.toFixed(2) });
+      draw(target);
+      return;
+    }
+    current += 0.5;
+    this.setData({ currentPercent: current.toFixed(2) });
+    draw(current);
+    setTimeout(animate, 16);
+  };
+
+  animate();
   },
 
   initBars(){
