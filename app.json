@@ -1,10 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/feature/index"
+    "pages/feature/index",
+    "pages/chart",
+    "pages/chart/index"
   ],
   "window": {
     "navigationBarTitleText": "我的小程序",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }

@@ -1,20 +1,277 @@
-<!--pages/feature/index.wxml-->
 <view class="wxml2canvas-container feature-container">
   <view class="wxml2canvas-item section1">
-    <view class="wxml2canvas-item logo" data-text="苹果">苹果</view>
+    <view class="wxml2canvas-item logo" data-text="小米">小米</view>
     <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（AAPL）"> 
       Stock Valuation Analysis Report（AAPL）
     </view>
-    <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy 雷军">
-      Investment Recommendation: Buy 雷军</view>
-    <view class="wxml2canvas-item btn">
-      <button class="wxml2canvas-item" data-text="保存图片">保存图片</button>
-      <button class="wxml2canvas-item" data-text="分享">分享</button>
-    </view>
+    <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy">
+      Investment Recommendation: Buy</view>
     <!-- <image class="wxml2canvas-item image" src="{{filePath}}" /> -->
   </view>
+  <view class="wxml2canvas-item section2 section">
+    <view class="wxml2canvas-item title">
+      <view class="wxml2canvas-item square" />
+      <view class="wxml2canvas-item ticker_name" 
+      data-text="{{mockDatas.ticker_name}}">
+        {{mockDatas.ticker_name}}
+      </view>
+    </view>
+    <view class="wxml2canvas-item content" data-text="{{mockDatas.business_description}}"
+    >
+      {{mockDatas.business_description}}
+    </view>
 
-  <button catchtap="generateSharingCard">生成画布内容</button>
+    <view class="wxml2canvas-item border-style">
+      Latest News
+    </view>
+    <view class="wxml2canvas-item desc">
+      <view class="wxml2canvas-item">
+        Apple stock rose after tariff exemptions on smartphones and electronics were announced.
+        <text class="wxml2canvas-item tag">Reuters</text> 
+      </view>
+    </view>
+
+    <view class="wxml2canvas-item link">
+      https://www.reuters.com/technology/apple-shares-lead-tech-higher-after-tariff-exempti
+    </view>
+
+  </view>
+
+  <view class="wxml2canvas-item section3 section">
+    <view class="wxml2canvas-item title">
+      <view class="wxml2canvas-item square" />
+      <view class="wxml2canvas-item ticker_name" data-text="Analysis">
+        Analysis
+      </view>
+    </view>
+    <view class="wxml2canvas-item content" data-text="Business Segment Analysis"
+      >
+      Business Segment Analysis
+      </view>
+
+    <view class="wxml2canvas-item card">
+      <view class="wxml2canvas-item header">
+        <view class="icon">📱</view>
+        <view class="wxml2canvas-item title">iPhone</view>
+      </view>
+
+      <view class="container">
+        <!-- 左侧内容 -->
+        <view class="left">
+          <view class="subtitle">Revenue</view>
+            <view class="revenue">$200.62B</view>
+            <view class="change">
+              <text class="trend-icon">⬇</text> 
+              <text>-1.90% YoY</text>
+            </view>
+        </view>
+
+        <!-- 右侧内容 -->
+        <view class="right">
+          <view class="right-title">Gross Margins</view>
+          <canvas type="2d" id="ringCanvas" style="width: 150rpx; height: 150rpx;"></canvas>
+          <view class="label">
+            <view class="percentage">{{currentPercent}}%</view>
+            <view class="description">Approximately</view>
+            <view class="description">$78.84B</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+
+    <view class="wxml2canvas-item lastDay">Latest Quarter Report (Dec 31, 2024)</view>
+
+    <view class="wxml2canvas-item summary">
+      <view class="summary-title">Summary</view>
+      <view class="p1">Services show robust growth, offsetting slower iPhone sales, 
+while wearables face challenges.</view>
+<view class="p2">High margins in services bolster overall profitability despite 
+pressure on hardware segments.</view>
+    </view>
+  </view>
+
+  <view class="wxml2canvas-item section4 section">
+    <view class="section4-title">Peer Comparison</view>
+    <view class="card">
+      <view class="bar-desc">
+        <view class="bar-icon"></view>
+        <view>Valuation Multiples - Industry Avg</view>
+      </view>
+      <view class="bar-desc">
+        <view class="bar-icon bar-red"></view>
+        <view>VValuation Multiples - Apple</view>
+      </view>
+      
+      <!-- 柱状图 -->
+      <view class="chart-container">
+        <canvas canvas-id="columnChart" class="column-chart"></canvas>
+      </view>
+
+    </view>
+    <view class="wxml2canvas-item summary">
+      <view class="summary-title">Summary</view>
+    <view class="wxml2canvas-item p2">Apple trades at a premium compared to peers, justified by 
+superior profitability and brand strength.</view>
+    </view>
+  </view>
+
+  <view class="wxml2canvas-item section5 section">
+    <view class="wxml2canvas-item title">
+      <view class="wxml2canvas-item square" />
+      <view class="wxml2canvas-item ticker_name" data-text="Forecasting">
+        Forecasting
+      </view>
+    </view>
+
+    <view class="wxml2canvas-item content" data-text="Revenue Forecasting"
+    >
+      Revenue Forecasting
+    </view>
+
+    <view class="wxml2canvas-item card">
+      <view class="wxml2canvas-item header">
+        Projected revenues over the next five years
+      </view>
+      <view class="wxml2canvas-item section5-content">
+        <view class="section5-content-item" wx:for="{{section5}}" wx:key="index">
+          <view class="item-icon">
+            {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
+          </view>
+          <view class="item-value">
+            <view class="item-value-text">{{item.title}}</view>
+            <view class="item-value-text">{{item.desc}}</view>
+            <view class="item-value-status">
+              <view class="{{item.status == 'down' ? 'trend-icon' : 'icon-red'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
+              <view class="trend-text">~{{item.percent}}%</view>
+              <view class="trend-text">{{item.name}}</view>
+            </view>
+          </view>  
+        </view>
+
+      </view>
+
+    </view>
+
+    <view class="wxml2canvas-item ticker_name" data-text="Cash Flow Forecasting">
+      Cash Flow Forecasting
+    </view>
+
+    <view class="wxml2canvas-item card">
+       <view class="bar-desc">
+          <view class="bar-icon bar-red"></view>
+          <view>Free Cash Flow</view>
+        </view>
+
+        <!-- 柱状图 2 -->
+        <view class="chart-container2">
+          <canvas canvas-id="columnChart2" class="column-chart2"></canvas>
+        </view>
+
+    </view>
+
+    <view class="wxml2canvas-item summary">
+      <view class="summary-title">Summary</view>
+      <view class="wxml2canvas-item p2">Strong free cash flow generation driven by services segment 
+      expansion.</view> 
+    </view>
+
+    <view class="wxml2canvas-item border-style">
+      Estimate the Cost of Capital
+    </view>
+    <view class="wxml2canvas-item section5-desc">
+      WACC Value: 7.5%
+    </view>
+
+    <view class="wxml2canvas-item border-style">
+      Risk Assessment
+    </view>
+    <view class="wxml2canvas-item section5-desc">
+      Risks include regulatory pressures, supply chain disruptions, 
+and competition intensifying.
+    </view>
+    
+
+  </view>
+
+  <view class="wxml2canvas-item section6 section">
+    <view class="wxml2canvas-item title">
+      <view class="wxml2canvas-item square" />
+      <view class="wxml2canvas-item ticker_name" data-text="Valuation">
+        Valuation
+      </view>
+    </view>
+
+    <view class="wxml2canvas-item card">
+      <view class="bar-desc">
+        <view class="bar-icon"></view>
+        <view class="bar-desc-text">
+          <view>Initial Valuation: $3.1T U</view>
+          <view>sing Discounted Free Cash Flow Method</view>
+        </view>
+      </view>
+
+      <view class="bar-desc">
+        <view class="bar-icon bar-hollow"></view>
+        <view class="bar-desc-text">
+          <view>Weighted Valuation Range: $2.9T - $3.3T</view>
+          <view>Explanation: Variations based on growth rates and discount rate</view>
+          <view>assumptions.</view>
+        </view>
+      </view>
+
+      <view class="bar-desc">
+        <view class="bar-icon bar-red"></view>
+        <view class="bar-desc-text">
+          <view>Final Valuation: $3.15T</view>
+          <view>Reason for Difference: Adjustments reflect strong brand loyalty</view>
+          <view>and ecosystem lock-in.</view>
+        </view>
+      </view>
+
+      <!-- 柱状图 3 -->
+      <view class="chart-container3">
+        <canvas canvas-id="valuationChart" class="valuation-chart"></canvas>
+      </view>
+
+    </view>
+  </view>
+
+  <view class="wxml2canvas-item section7 section5 section">
+    <view class="wxml2canvas-item title">
+      <view class="wxml2canvas-item square" />
+      <view class="wxml2canvas-item ticker_name" data-text="Conclusion and Recommendations">
+        <view class="wxml2canvas-item" data-text="Conclusion and">Conclusion and</view>
+        <view class="wxml2canvas-item last" data-text="Recommendations">Recommendations</view>
+      </view>
+    </view>
+    <view class="wxml2canvas-item card">
+      <view class="wxml2canvas-item header" data-text="Compare with Market Price">
+        Compare with Market Price
+      </view>
+      <view class="wxml2canvas-item section5-content">
+        <view class="section7-content-item" wx:for="{{section7}}" wx:key="index">
+          <view class="item-value">
+            <view class="item-value-text">{{item.title}}</view>
+            <view class="item-value-text">{{item.desc}}</view>
+            <view class="item-value-status">
+              <view class="{{item.status == 'down' ? 'trend-icon' : 'icon-red'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
+              <view class="trend-text">~{{item.percent}}%</view>
+              <view class="trend-text">{{item.name}}</view>
+            </view>
+          </view>  
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- <button catchtap="generateSharingCard">生成画布内容</button> -->
+
+  <!-- 底部按钮 -->
+  <!-- <view class="btn">
+    <button class="save public" data-text="保存图片">保存图片</button>
+    <button class="share public" data-text="分享">分享</button>
+  </view> -->
 
   <wxml2canvas id="wxml2canvas" />
 </view>
