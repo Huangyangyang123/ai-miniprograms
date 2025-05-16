@@ -1,68 +1,5 @@
- export const initGraphCanvas = (ctx)=>{
-
-  const canvasHeight = 550;
-  // 图表参数
-  const barWidth = 40; // 柱子宽度增加
-  const barGap = 80; // 柱子间距增加  
-
-  const offsetX = -50; // 向左靠近画布边缘，数值越小越靠左
-
-  const targetHeights = [380, 350, 370]; // 目标高度数组
-  const colors = ['#bfc2cb', '#bfc2cb', '#e63946']; // 颜色数组
-  const currentHeights = [0, 0, 0]; // 当前高度数组
-  const step = 18
-
-  const animate = ()=>{
-    let finished = true;
-    for (let i = 0; i < 3; i++) {
-      if (currentHeights[i] < targetHeights[i]) {
-        currentHeights[i] = Math.min(currentHeights[i] + step, targetHeights[i]);
-        finished = false;
-      }
-    }
-    ctx.clearRect(0, 0, 1000, 1000); // 清空画布
-
-    // 绘制柱子
-    for (let i = 0; i < 3; i++) {
-      drawBar(ctx, i, currentHeights[i], barWidth, barGap, canvasHeight, colors[i], offsetX);
-    }
-
-    // 只在动画结束后绘制箭头和文字
-    if(finished){
-      // 绘制中间柱子虚盖部分
-      const side = 15;
-      const barX = barGap + (barWidth + barGap) * 1;
-      const arrowStartX = barX + barWidth + side;
-
-      const barX0 = barGap + (barWidth + barGap) * 0; // 第一个柱子的x
-      const arrowStartX0 = barX0 + barWidth + side;   // 第一个柱子右侧立体面
-      const arrowY = canvasHeight - targetHeights[0] / 2 + 110;   // 箭头大致居中
-      
-      // 绘制水平箭头和文字（调整位置和样式）
-      drawHorizontalArrow(ctx, barWidth, barGap, canvasHeight, 
-                            'Sensitivity and Scenario Analysis',
-                            arrowStartX0,arrowY,barGap - 30);
-      drawHorizontalArrow(ctx, barWidth, barGap, canvasHeight, 
-                            'Incorporate Qualitative Factors and Validate',
-                            arrowStartX, 
-                            canvasHeight - 100, barGap - 30);
-      
-      // 绘制柱子顶部数值
-      drawValueText(ctx, 0, barWidth, barGap, '$3.1T', canvasHeight, targetHeights[0]);
-      drawValueText(ctx, 1, barWidth, barGap, '$3.3T', canvasHeight, targetHeights[1]);
-      drawValueText(ctx, 2, barWidth, barGap, '$3.15T', canvasHeight, targetHeights[2]);
-    }
-
-    ctx.draw();
-
-    if (!finished) {
-      setTimeout(animate, 16); // 约60fps
-    }
-  }
-  animate();
- }
 // 绘制柱子（增强立体效果）
- const drawBar = (ctx, index, height, barWidth, barGap, canvasHeight, color, drawBar)=>{
+ export const drawBar = (ctx, index, height, barWidth, barGap, canvasHeight, color, drawBar)=>{
   const x = drawBar + barGap + (barWidth + barGap) * index;
   const gradientHeight = height * 0.7; // 渐变高度
   
@@ -263,7 +200,7 @@
  }
 
  // 绘制水平箭头和文字
- const drawHorizontalArrow = (ctx, barWidth, barGap, canvasHeight, text, startX, startY, arrowLength)=>{
+ export const drawHorizontalArrow = (ctx, barWidth, barGap, canvasHeight, text, startX, startY, arrowLength)=>{
     const arrowHeadSize = 7; // 箭头头部大小
     const arrowYOffset = -40; // 上移40像素，可根据需要调整
     
@@ -313,7 +250,7 @@
  }
 
  //绘制柱子顶部数值
- const drawValueText = (ctx, index, barWidth, barGap, value, canvasHeight, barHeight)=>{
+ export const drawValueText = (ctx, index, barWidth, barGap, value, canvasHeight, barHeight)=>{
   const x = barGap + (barWidth + barGap) * index + barWidth / 2;
   const y = canvasHeight - barHeight - 35; // 上移
   ctx.font = '16px Univers Next for HSBC';

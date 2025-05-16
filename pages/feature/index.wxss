@@ -350,8 +350,8 @@
 }
 
 .section5 .chart-container2 {
-  width: 100%;
-  height: 380px;
+  width: 600rpx;
+  height: 750rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -360,6 +360,10 @@
   width: 100%;
   height: 350px;
 }
+.section5 .column-chart2-image{
+  /* 保证 image 也能居中 */
+  margin: 0 auto;
+}
 
 .section6 .chart-container3 {
   width: 100%;
@@ -367,6 +371,12 @@
 .section6 .valuation-chart {
   width: 350px;
   height: 600px;
+}
+
+.section6 .valuation-chart-image{
+  width: 350px;
+  height: 600px;
+  margin: 0 auto;
 }
 
 .section5 .card{
@@ -436,7 +446,7 @@
 .section5-desc{
   font-family: Univers Next for HSBC;
   font-weight: 100;
-  font-size: 36rpx;
+  font-size: 28rpx;
   line-height: 150%;
   color: #EDEDED;
   margin:40rpx 0;

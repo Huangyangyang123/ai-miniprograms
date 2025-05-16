@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { initGraphCanvas } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText } from '../../utils/index'
 
 Page({
   data: {
@@ -21,6 +21,25 @@ Page({
     
     animationData: {},
 
+    section3Datas:{
+      texts:[
+        {
+        desc:`Services show robust growth, offsetting slower iPhone sales, 
+while wearables face challenges.`
+      },
+      {
+        desc:`High margins in services bolster overall profitability despite 
+pressure on hardware segments.`
+      }
+    ]
+    },
+
+    section4:`Apple trades at a premium compared to peers, justified by 
+superior profitability and brand strength.`,
+section5Text:`Strong free cash flow generation driven by services segment 
+      expansion.`,
+    section5Text1:`Risks include regulatory pressures, supply chain disruptions, 
+and competition intensifying.`,
     section5:[
       {
         icon:'phone',
@@ -91,6 +110,9 @@ Page({
       { value: 114.0, color: '#DC2A31', label: 'Year 5' }
     ],
     ringCanvasImg:null,
+    columnChartImg:null,
+    columnChartImg2:null,
+    valuationChartImg:null,
     showCavans:true,
     currentPercent: 0 // 当前百分比
   },
@@ -148,7 +170,7 @@ Page({
     })
 
     console.log('filePath==',filePath)
-    
+
     wx.previewImage({
       urls: [filePath],
     });
@@ -315,6 +337,12 @@ Page({
         this.setData({ animationProgress: newProgress }, () => {
           ctx.draw(false, () => {
             this.data.animationTimer = setTimeout(animate, 30);
+            wx.canvasToTempFilePath({
+              canvasId: 'columnChart',
+              success: res => {
+                this.setData({ columnChartImg: res.tempFilePath });
+              }
+            });
           });
         });
       } else {
@@ -370,6 +398,12 @@ Page({
         this.setData({ animationProgress: newProgress }, () => {
           ctx.draw(false, () => {
             this.data.animationTimer = setTimeout(animate, 30);
+            wx.canvasToTempFilePath({
+              canvasId: 'columnChart2',
+              success: res => {
+                this.setData({ columnChartImg2: res.tempFilePath });
+              }
+            });
           });
         });
       } else {
@@ -380,9 +414,76 @@ Page({
     this.data.animationTimer = setTimeout(animate, 30);
   },
 
-  initBars3(){
+  async initBars3(){
     const ctx = wx.createCanvasContext('valuationChart')
-    initGraphCanvas(ctx)
+
+    const canvasHeight = 550;
+    // 图表参数
+    const barWidth = 40; // 柱子宽度增加
+    const barGap = 80; // 柱子间距增加  
+
+    const offsetX = -50; // 向左靠近画布边缘，数值越小越靠左
+
+    const targetHeights = [380, 350, 370]; // 目标高度数组
+    const colors = ['#bfc2cb', '#bfc2cb', '#e63946']; // 颜色数组
+    const currentHeights = [0, 0, 0]; // 当前高度数组
+    const step = 18
+
+    const animate = ()=>{
+      let finished = true;
+      for (let i = 0; i < 3; i++) {
+        if (currentHeights[i] < targetHeights[i]) {
+          currentHeights[i] = Math.min(currentHeights[i] + step, targetHeights[i]);
+          finished = false;
+        }
+      }
+      ctx.clearRect(0, 0, 1000, 1000); // 清空画布
+
+      // 绘制柱子
+      for (let i = 0; i < 3; i++) {
+        drawBar(ctx, i, currentHeights[i], barWidth, barGap, canvasHeight, colors[i], offsetX);
+      }
+
+      // 只在动画结束后绘制箭头和文字
+      if(finished){
+        // 绘制中间柱子虚盖部分
+        const side = 15;
+        const barX = barGap + (barWidth + barGap) * 1;
+        const arrowStartX = barX + barWidth + side;
+
+        const barX0 = barGap + (barWidth + barGap) * 0; // 第一个柱子的x
+        const arrowStartX0 = barX0 + barWidth + side;   // 第一个柱子右侧立体面
+        const arrowY = canvasHeight - targetHeights[0] / 2 + 110;   // 箭头大致居中
+        
+        // 绘制水平箭头和文字（调整位置和样式）
+        drawHorizontalArrow(ctx, barWidth, barGap, canvasHeight, 
+                              'Sensitivity and Scenario Analysis',
+                              arrowStartX0,arrowY,barGap - 30);
+        drawHorizontalArrow(ctx, barWidth, barGap, canvasHeight, 
+                              'Incorporate Qualitative Factors and Validate',
+                              arrowStartX, 
+                              canvasHeight - 100, barGap - 30);
+        
+        // 绘制柱子顶部数值
+        drawValueText(ctx, 0, barWidth, barGap, '$3.1T', canvasHeight, targetHeights[0]);
+        drawValueText(ctx, 1, barWidth, barGap, '$3.3T', canvasHeight, targetHeights[1]);
+        drawValueText(ctx, 2, barWidth, barGap, '$3.15T', canvasHeight, targetHeights[2]);
+      }
+
+      ctx.draw(false, () => {
+        wx.canvasToTempFilePath({
+          canvasId: 'valuationChart',
+          success: res => {
+            this.setData({ valuationChartImg: res.tempFilePath });
+          }
+        });
+      })
+
+      if (!finished) {
+        setTimeout(animate, 16); // 约60fps
+      }
+    }
+    animate();
   },
 
   draw3DBar(ctx, x, y, height, color){
@@ -676,6 +777,34 @@ Page({
     }else{
       ctx.fillText(label, x + 15, y + 15); // 放在阴影下方，向下偏移 15 像素
     }
-  }
+  },
 
+  // 分享给微信好友
+  onShareAppMessage: function () {
+    return {
+      title: '公司财报报告',
+      path: '/pages/feature/index', // 分享后打开的页面路径
+      imageUrl: '/assets/image/share.png' // 可选，自定义分享图片
+    }
+  },
+  // 保存长图到相册
+  async onSaveImage(){
+    this.setData({ showCavans: false });
+
+    const canvas = this.selectComponent('#wxml2canvas');
+    await canvas.draw();
+    const filePath = await canvas.toTempFilePath();
+
+    console.log('filePath==',filePath)
+
+    wx.saveImageToPhotosAlbum({
+      filePath,
+      success() {
+        wx.showToast({ title: '保存成功', icon: 'success' });
+      },
+      fail() {
+        wx.showToast({ title: '保存失败', icon: 'none' });
+      }
+  });
+  }
 });
