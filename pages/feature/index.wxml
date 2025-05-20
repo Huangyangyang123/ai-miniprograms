@@ -74,7 +74,7 @@
           <canvas wx:if="{{showCavans}}" canvas-id="ringCanvas" id="ringCanvas" style="width: 75px; height: 75px;"></canvas>
           <!-- hidden="{{showCavans}}" -->
            <!-- 用 hidden，可以给 image 加一个唯一 key -->
-          <image wx:elif="{{!showCavans && ringCanvasImg}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:75px;height:75px;" />
+          <image mode="aspectFit" wx:elif="{{!showCavans && ringCanvasImg}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:75px;height:75px;" />
           
           <view class="label wxml2canvas-item">
             <view class="percentage wxml2canvas-item" data-text="{{currentPercent}}%">{{currentPercent}}%</view>
@@ -110,7 +110,7 @@
       <view class="chart-container">
         <!-- hidden="{{!showCavans1}}" -->
         <canvas wx:if="{{showCavans1}}" id="columnChart" canvas-id="columnChart" class="column-chart"></canvas>
-        <image wx:elif="{{!showCavans1 && columnChartImg}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
+        <image mode="aspectFit" wx:elif="{{!showCavans1 && columnChartImg}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
       </view>
 
     </view>
@@ -169,7 +169,7 @@
         <!-- 柱状图 2 -->
         <view class="chart-container2">
           <canvas wx:if="{{showCavans2}}" canvas-id="columnChart2" id="columnChart2" class="column-chart2"></canvas>
-          <image wx:elif="{{!showCavans2 && columnChartImg2}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
+          <image mode="aspectFit" wx:elif="{{!showCavans2 && columnChartImg2}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
         </view>
     </view>
 
@@ -231,7 +231,7 @@
       <!-- 柱状图 3 -->
       <view class="wxml2canvas-item chart-container3">
         <canvas wx:if="{{showCavans3}}" id="valuationChart" canvas-id="valuationChart" class="wxml2canvas-item valuation-chart"></canvas>
-        <image wx:elif="{{!showCavans3 && valuationChartImg}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" style="width:100%;height:100%;"  />
+        <image mode="aspectFit" wx:elif="{{!showCavans3 && valuationChartImg}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" style="width:100%;height:100%;"  />
       </view>
 
     </view>
