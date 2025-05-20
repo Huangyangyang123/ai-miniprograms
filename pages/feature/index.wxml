@@ -69,9 +69,12 @@
         <view class="right wxml2canvas-item">
           <view class="right-title wxml2canvas-item" data-text="Gross Margins">Gross Margins</view>
           <!-- type="2d" 使用2d会漂在页面上 不友好  -->
-          <canvas hidden="{{!showCavans}}" canvas-id="ringCanvas" id="ringCanvas" style="width: 150rpx; height: 150rpx;"></canvas>
-          
-          <image hidden="{{showCavans}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:150rpx;height:150rpx;" />
+           <!-- 即便不用2d 在真机也会漂起来 使用wx:if解决一下 -->
+            <!-- hidden="{{!showCavans}}" -->
+          <canvas wx:if="{{showCavans}}" canvas-id="ringCanvas" id="ringCanvas" style="width: 75px; height: 75px;"></canvas>
+          <!-- hidden="{{showCavans}}" -->
+           <!-- 用 hidden，可以给 image 加一个唯一 key -->
+          <image wx:elif="{{!showCavans && ringCanvasImg}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:75px;height:75px;" />
           
           <view class="label wxml2canvas-item">
             <view class="percentage wxml2canvas-item" data-text="{{currentPercent}}%">{{currentPercent}}%</view>
@@ -105,8 +108,8 @@
       
       <!-- 柱状图 -->
       <view class="chart-container">
-        <canvas hidden="{{!showCavans}}" id="columnChart" canvas-id="columnChart" class="column-chart"></canvas>
-        <image hidden="{{showCavans}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
+        <canvas hidden="{{!showCavans1}}" id="columnChart" canvas-id="columnChart" class="column-chart"></canvas>
+        <image hidden="{{showCavans1}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
       </view>
 
     </view>
@@ -134,13 +137,13 @@
         Projected revenues over the next five years
       </view>
       <view class="wxml2canvas-item section5-content">
-        <view class="wxml2canvas-item section5-content-item" wx:for="{{section5}}" wx:key="{{index}}">
+        <view class=" {{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{section5}}" wx:key="{{index}}">
           <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
           </view>
           <view class="wxml2canvas-item item-value">
             <view class="wxml2canvas-item item-value-text" data-text="{{item.title}}">{{item.title}}</view>
-            <view class="wxml2canvas-item item-value-text" data-text="{{item.desc}}">{{item.desc}}</view>
+            <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.desc}}">{{item.desc}}</view> -->
             <view class="wxml2canvas-item item-value-status">
               <view class="wxml2canvas-item {{item.status == 'down' ? 'trend-icon' : 'icon-red'}}" data-text="{{item.status == 'down' ? '⬇' : '⬆'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
               <view class="wxml2canvas-item trend-text" data-text="~{{item.percent}}%">~{{item.percent}}%</view>
@@ -164,8 +167,8 @@
 
         <!-- 柱状图 2 -->
         <view class="chart-container2">
-          <canvas hidden="{{!showCavans}}" canvas-id="columnChart2" id="columnChart2" class="column-chart2"></canvas>
-          <image hidden="{{showCavans}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
+          <canvas hidden="{{!showCavans2}}" canvas-id="columnChart2" id="columnChart2" class="column-chart2"></canvas>
+          <image hidden="{{showCavans2}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
         </view>
 
     </view>
@@ -227,8 +230,8 @@
 
       <!-- 柱状图 3 -->
       <view class="wxml2canvas-item chart-container3">
-        <canvas hidden="{{!showCavans}}" id="valuationChart" canvas-id="valuationChart" class="wxml2canvas-item valuation-chart"></canvas>
-        <image hidden="{{showCavans}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" />
+        <canvas hidden="{{!showCavans3}}" id="valuationChart" canvas-id="valuationChart" class="wxml2canvas-item valuation-chart"></canvas>
+        <image hidden="{{showCavans3}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" />
       </view>
 
     </view>

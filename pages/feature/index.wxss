@@ -2,7 +2,7 @@
 .feature-container{
   background: #000000;
   height: fit-content;
-  padding: 40rpx;
+  padding: 40rpx 20rpx;
 }
 .logo{
   background: linear-gradient(180deg, #ECECEC 0%, #D8D8D8 100%);
@@ -58,7 +58,7 @@
   height: 24rpx;
   background: #AD0C13;
   display: inline-block;
-  margin-left: -38rpx;
+  margin-left: -18rpx;
 }
 
 .section{
@@ -138,9 +138,9 @@
 .section .card{
   background-color: #1c1c1e;
   border-radius: 20rpx;
-  padding: 30rpx;
+  padding: 30rpx 10rpx;
   color: #fff;
-  width: 90%;
+  /* width: 90%; */
   margin: 30rpx 0;
 }
 
@@ -228,6 +228,7 @@
   font-weight: bold;
   color: #DC2A31;
   margin-bottom: 10rpx;
+  width: fit-content;
 }
 
 .section3 .change {
@@ -350,7 +351,7 @@
 }
 
 .section5 .chart-container2 {
-  width: 600rpx;
+  width: 100%;
   height: 750rpx;
   display: flex;
   justify-content: center;
@@ -408,11 +409,15 @@
   color: #EDEDED;
 }
 
-.section5 .section5-content-item,section7-content-item{
+.section5 .section5-content-item{
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   margin: 20rpx 0;
+  width: 48%;
+}
+
+.section5 .setwidth{
+  width: 100%;
 }
 
 .section5 .item-icon{
@@ -421,9 +426,10 @@
 }
 
 .section5 .item-value{
-  font-size: 36rpx;
+  font-size: 28rpx;
   font-weight: normal;
   color: #EDEDED;
+  width: 100%;
 }
 
 .section5 .item-value-status{
@@ -433,11 +439,13 @@
 
 .section5 .item-value-text{
   font-weight: 100;
+  width: fit-content;
 }
 
 .section5 .trend-text{
   margin: 0 6rpx;
   font-weight: 100;
+  width: fit-content;
 }
 
 .section5 .icon-red{
@@ -473,6 +481,7 @@
   justify-content: space-between;
   align-items:flex-end;
   font-size: 24rpx;
+  width: 100%;
 }
 
 .section7 .item-value-num{

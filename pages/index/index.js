@@ -1,66 +1,22 @@
 // pages/index.js
 
+import { indexLists } from '../../utils/index'
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    list: [
-      {
-        title: '苹果',
-        id:'AAPL',//'1810.HK',
-        icon: 'iconfont icon-gongnengjieshao',
-      },
-      {
-        title: '拼多多',
-        icon: 'iconfont icon-shiyongshuoming',
-      },
-      {
-        title: '理想汽车',
-        icon: 'iconfont icon-guanyuwomen',
-      },
-      {
-        title:'英伟达',
-        icon: 'iconfont icon-shouye',
-      },
-      {
-        title: '伯克希尔',//哈撒韦
-        icon: 'iconfont icon-shouye',
-      }, 
-      {
-        title: '渣打集团',
-        icon: 'iconfont icon-shouye',
-      }, 
-      {
-        title: '腾讯',
-        icon: 'iconfont icon-shouye',
-      }, 
-      {
-        title: '美团',
-        icon: 'iconfont icon-shouye',
-      }, 
-      {
-        title: '贵州茅台',
-        icon: 'iconfont icon-shouye',
-      }, 
-      {
-        title: '小米',
-        id:'1810.HK',
-        icon: 'iconfont icon-shouye',
-      },
-      {
-        title: 'Plalantir',
-        icon: 'iconfont icon-shouye',
-      },
-    ]
+    list: indexLists()
   },
 
   onTapList(e) {
     console.log('e==',e)
     const title = e.currentTarget.dataset.tab;
-    console.log('title==',title)
+    const id = e.currentTarget.dataset.id;
+    console.log('title==',title,id)
     wx.navigateTo({
-      url: `/pages/feature/index?title=${title}`,
+      url: `/pages/feature/index?title=${title}&id=${id}`,
     });
   },
 

@@ -278,3 +278,64 @@
     const hex = num.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
  }
+
+ export const indexLists = ()=>{
+   const datas = [
+      {
+        title: '苹果',
+        id:'AAPL',
+        image: '/assets/image/logo/apple_logo.png',
+      },
+      {
+        title: '拼多多',
+        id:'PDD',
+        image: '/assets/image/logo/pdd.png',
+      },
+      {
+        title: '理想汽车',
+        id:'02015.HK',
+        image: '/assets/image/logo/lixiang.png',
+      },
+      {
+        title:'英伟达',
+        id:'NVDA',
+        image: '/assets/image/logo/nvidia.png',
+      },
+      {
+        title: '伯克希尔',//哈撒韦
+        id:'BRK',
+        image: '/assets/image/logo/brk.png',
+      }, 
+      {
+        title: '渣打集团',
+        id:'02888.HK',
+        image: '/assets/image/logo/zhada.png',
+      }, 
+      {
+        title: '腾讯',
+        id:'00700.HK',
+        image: '/assets/image/logo/tencent.png',
+      }, 
+      {
+        title: '美团',
+        id:'03690.HK',
+        image: '/assets/image/logo/meituan.png',
+      }, 
+      {
+        title: '贵州茅台',
+        id:'600519',
+        image: '/assets/image/logo/moutai.png',
+      }, 
+      {
+        title: '小米',
+        id:'1810.HK',
+        image: '/assets/image/logo/xiaomi.png',
+      },
+      {
+        title: 'Plalantir',
+        id:'PLTR',
+        image: '/assets/image/logo/plalantir.png',
+      },
+   ]
+   return datas
+ }

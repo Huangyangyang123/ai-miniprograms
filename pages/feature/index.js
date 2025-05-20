@@ -24,43 +24,35 @@ Page({
     section3Datas:{
       texts:[
         {
-        desc:`Services show robust growth, offsetting slower iPhone sales, 
-while wearables face challenges.`
-      },
-      {
-        desc:`High margins in services bolster overall profitability despite 
-pressure on hardware segments.`
-      }
-    ]
+          desc:`Services show robust growth, offsetting slower iPhone sales, while wearables face challenges.`
+        },
+        {
+          desc:`High margins in services bolster overall profitability despite pressure on hardware segments.`
+        }
+      ]
     },
 
-    section4:`Apple trades at a premium compared to peers, justified by 
-superior profitability and brand strength.`,
-section5Text:`Strong free cash flow generation driven by services segment 
-      expansion.`,
-    section5Text1:`Risks include regulatory pressures, supply chain disruptions, 
-and competition intensifying.`,
+    section4:`Apple trades at a premium compared to peers, justified by superior profitability and brand strength.`,
+    section5Text:`Strong free cash flow generation driven by services segment expansion.`,
+    section5Text1:`Risks include regulatory pressures, supply chain disruptions, and competition intensifying.`,
     section5:[
       {
         icon:'phone',
-        title:'phone',
-        desc:'Steady decline',
+        title:'phone Steady decline',
         status:'down',
         percent:1,
         name:'YoY'
       },
       {
         icon:'set',
-        title:'Services',
-        desc:'Continued growth',
+        title:'Services Continued growth',
         status:'up',
         percent:12,
         name:'YoY'
       },
       {
         icon:'watch',
-        title:'Wearables, Home, and Accessories',
-        desc:'Moderate recovery',
+        title:'Wearables, Home, and Accessories oderate recovery',
         status:'up',
         percent:3,
         name:'YoY'
@@ -114,6 +106,9 @@ and competition intensifying.`,
     columnChartImg2:null,
     valuationChartImg:null,
     showCavans:true,
+    showCavans1:true,
+    showCavans2:true,
+    showCavans3:true,
     currentPercent: 0 // 当前百分比
   },
 
@@ -145,7 +140,6 @@ and competition intensifying.`,
 
   async generateSharingCard(){
     // 等 image 加载完成后再截图
-    this.setData({ showCavans: false });
 
     const canvas = this.selectComponent('#wxml2canvas');
     await canvas.draw();
@@ -178,7 +172,10 @@ and competition intensifying.`,
   },
 
   async initDatas(){
-    // const res = await serviceApi(`/api/v1/stock/analysis/query/ticker_name=AAPL&date=2025-05-07`)
+    // 传当天日期 取得就是前一天数据吗
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=AAPL&date=2025-05-19`)
+
+    console.log('res==',res)
 
     this.setData({
       mockDatas
@@ -187,9 +184,13 @@ and competition intensifying.`,
 
   initRings() {
 
-    const ctx = wx.createCanvasContext('ringCanvas');
     const width = 75;  // 画布宽度（单位 px，和 wxml 保持一致，150rpx≈75px，建议用 px 单位）
     const height = 75;
+
+
+    const ctx = wx.createCanvasContext('ringCanvas');
+
+
     const centerX = width / 2;
     const centerY = height / 2;
     const radius = width / 2 - 20;
@@ -219,68 +220,81 @@ and competition intensifying.`,
     }
 
     const draw = (percent) => {
-    ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
 
-    // 背景圆环
-    ctx.beginPath();
-    ctx.setLineWidth(lineWidth);
-    ctx.setStrokeStyle('#888');
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.stroke();
+      // 背景圆环
+      ctx.beginPath();
+      ctx.setLineWidth(lineWidth);
+      ctx.setStrokeStyle('#888');
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.stroke();
 
-    // 红色环
-    const start = -Math.PI / 2;
-    const end = start + (2 * Math.PI * percent / 100);
-    ctx.beginPath();
-    ctx.setStrokeStyle('#DC2A31');
-    ctx.setLineWidth(lineWidth);
-    ctx.arc(centerX, centerY, radius, start, end);
-    ctx.stroke();
+      // 红色环
+      const start = -Math.PI / 2;
+      const end = start + (2 * Math.PI * percent / 100);
+      ctx.beginPath();
+      ctx.setStrokeStyle('#DC2A31');
+      ctx.setLineWidth(lineWidth);
+      ctx.arc(centerX, centerY, radius, start, end);
+      ctx.stroke();
 
-    // 虚线指引（从圆环终点向外延伸）
-    const angle = end;
-    const x1 = centerX + radius * Math.cos(angle) + 5;
-    const y1 = centerY + radius * Math.sin(angle) - 10;
+      // 虚线指引（从圆环终点向外延伸）
+      const angle = end;
+      const x1 = centerX + radius * Math.cos(angle) + 5;
+      const y1 = centerY + radius * Math.sin(angle) - 10;
 
-    // 第一段：沿圆弧方向延伸 18px
-    const len1 = 18;
-    const x2 = x1 + len1 * Math.cos(angle);
-    const y2 = y1 + len1 * Math.sin(angle);
+      // 第一段：沿圆弧方向延伸 18px
+      const len1 = 18;
+      const x2 = x1 + len1 * Math.cos(angle);
+      const y2 = y1 + len1 * Math.sin(angle);
 
-    // 第二段：水平向右 30px
-    const len2 = 30;
-    const x3 = x2 + len2;
-    const y3 = y2;
+      // 第二段：水平向右 30px
+      const len2 = 30;
+      const x3 = x2 + len2;
+      const y3 = y2;
 
-    // 绘制第一段虚线
-    drawDashedLine(ctx, x1, y1, x2, y2);
+      // 绘制第一段虚线
+      drawDashedLine(ctx, x1, y1, x2, y2);
 
-    // 绘制拐弯后的水平虚线
-    drawDashedLine(ctx, x2, y2, x3, y3);
+      // 绘制拐弯后的水平虚线
+      drawDashedLine(ctx, x2, y2, x3, y3);
 
-    ctx.draw(false,()=>{
-      wx.canvasToTempFilePath({
-        canvasId: 'ringCanvas',
-        success: res => {
-          this.setData({ ringCanvasImg: res.tempFilePath });
-        }
+      ctx.draw(false,()=>{
+        setTimeout(() => {
+          wx.canvasToTempFilePath({
+            canvasId: 'ringCanvas',
+            width: width,
+            height: height,
+            success: res => {
+              this.setData({ 
+                ringCanvasImg: res.tempFilePath,
+            },()=>{
+              // 第二步：延迟一点再隐藏canvas，显示image
+              setTimeout(() => {
+                this.setData({
+                  showCavans: false
+                });
+                }, 400); // 400ms延迟，确保image src已渲染
+              })
+            }
+          },this);
+        },2500)
       });
-    });
-  };
+    };
 
-  const animate = () => {
-    if (current >= target) {
-      this.setData({ currentPercent: target.toFixed(2) });
-      draw(target);
-      return;
-    }
-    current += 0.5;
-    this.setData({ currentPercent: current.toFixed(2) });
-    draw(current);
-    setTimeout(animate, 16);
-  };
+    const animate = () => {
+      if (current >= target) {
+        this.setData({ currentPercent: target.toFixed(2) });
+        draw(target);
+        return;
+      }
+      current += 0.5;
+      this.setData({ currentPercent: current.toFixed(2) });
+      draw(current);
+      setTimeout(animate, 16);
+    };
 
-  animate();
+    animate();
   },
 
   initBars(){
@@ -340,9 +354,12 @@ and competition intensifying.`,
             wx.canvasToTempFilePath({
               canvasId: 'columnChart',
               success: res => {
-                this.setData({ columnChartImg: res.tempFilePath });
+                this.setData({ 
+                  columnChartImg: res.tempFilePath,
+                  showCavans1: false // 隐藏canvas，显示image
+                });
               }
-            });
+            },this);
           });
         });
       } else {
@@ -401,9 +418,12 @@ and competition intensifying.`,
             wx.canvasToTempFilePath({
               canvasId: 'columnChart2',
               success: res => {
-                this.setData({ columnChartImg2: res.tempFilePath });
+                this.setData({ 
+                  columnChartImg2: res.tempFilePath,
+                  showCavans2: false // 隐藏canvas，显示image
+                });
               }
-            });
+            },this);
           });
         });
       } else {
@@ -474,9 +494,12 @@ and competition intensifying.`,
         wx.canvasToTempFilePath({
           canvasId: 'valuationChart',
           success: res => {
-            this.setData({ valuationChartImg: res.tempFilePath });
+            this.setData({ 
+              valuationChartImg: res.tempFilePath,
+              showCavans3: false // 隐藏canvas，显示image
+            });
           }
-        });
+        },this);
       })
 
       if (!finished) {
@@ -550,7 +573,7 @@ and competition intensifying.`,
   drawColumn(ctx, x, y, height, color,type='bar1') {
     if(type === 'bar2'){
       const barWidth = this.data.barWidth2;
-      const sideWidth = 18; // 侧面宽度
+      const sideWidth = 16; // 侧面宽度
 
       // 绘制正面
       ctx.beginPath();
@@ -789,13 +812,11 @@ and competition intensifying.`,
   },
   // 保存长图到相册
   async onSaveImage(){
-    this.setData({ showCavans: false });
+    const that = this
 
-    const canvas = this.selectComponent('#wxml2canvas');
+    const canvas = that.selectComponent('#wxml2canvas');
     await canvas.draw();
     const filePath = await canvas.toTempFilePath();
-
-    console.log('filePath==',filePath)
 
     wx.saveImageToPhotosAlbum({
       filePath,
