@@ -1,6 +1,6 @@
 <view class="wxml2canvas-container feature-container">
   <view class="wxml2canvas-item section1">
-    <view class="wxml2canvas-item logo" data-text="小米">小米</view>
+    <image class="wxml2canvas-item logo" mode="aspectFit" src="{{detailLogo}}" />
     <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（AAPL）"> 
       Stock Valuation Analysis Report（AAPL）
     </view>
@@ -60,7 +60,7 @@
           <view class="subtitle wxml2canvas-item" data-text="Revenue">Revenue</view>
             <view class="revenue wxml2canvas-item" data-text="$200.62B">$200.62B</view>
             <view class="change wxml2canvas-item">
-              <text class="trend-icon wxml2canvas-item" data-text="⬇">⬇</text> 
+              <image class="wxml2canvas-item trend-icon" mode="aspectFit" src="{{arrow_down_image}}" />
               <text class="wxml2canvas-item" data-text="-1.90% YoY">-1.90% YoY</text>
             </view>
         </view>
@@ -108,8 +108,9 @@
       
       <!-- 柱状图 -->
       <view class="chart-container">
-        <canvas hidden="{{!showCavans1}}" id="columnChart" canvas-id="columnChart" class="column-chart"></canvas>
-        <image hidden="{{showCavans1}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
+        <!-- hidden="{{!showCavans1}}" -->
+        <canvas wx:if="{{showCavans1}}" id="columnChart" canvas-id="columnChart" class="column-chart"></canvas>
+        <image wx:elif="{{!showCavans1 && columnChartImg}}" src="{{columnChartImg}}" class="wxml2canvas-item" style="width:100%;height:100%;" />
       </view>
 
     </view>
@@ -138,14 +139,14 @@
       </view>
       <view class="wxml2canvas-item section5-content">
         <view class=" {{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{section5}}" wx:key="{{index}}">
-          <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
+          <!-- <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
-          </view>
+          </view> -->
           <view class="wxml2canvas-item item-value">
             <view class="wxml2canvas-item item-value-text" data-text="{{item.title}}">{{item.title}}</view>
             <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.desc}}">{{item.desc}}</view> -->
             <view class="wxml2canvas-item item-value-status">
-              <view class="wxml2canvas-item {{item.status == 'down' ? 'trend-icon' : 'icon-red'}}" data-text="{{item.status == 'down' ? '⬇' : '⬆'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
+              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.status == 'down' ? arrow_down_image : arrow_up_image}}" />
               <view class="wxml2canvas-item trend-text" data-text="~{{item.percent}}%">~{{item.percent}}%</view>
               <view class="wxml2canvas-item trend-text" data-text="{{item.name}}">{{item.name}}</view>
             </view>
@@ -167,10 +168,9 @@
 
         <!-- 柱状图 2 -->
         <view class="chart-container2">
-          <canvas hidden="{{!showCavans2}}" canvas-id="columnChart2" id="columnChart2" class="column-chart2"></canvas>
-          <image hidden="{{showCavans2}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
+          <canvas wx:if="{{showCavans2}}" canvas-id="columnChart2" id="columnChart2" class="column-chart2"></canvas>
+          <image wx:elif="{{!showCavans2 && columnChartImg2}}" src="{{columnChartImg2}}" class="wxml2canvas-item column-chart2-image" style="width:100%;height:100%" />
         </view>
-
     </view>
 
     <view class="wxml2canvas-item summary">
@@ -230,8 +230,8 @@
 
       <!-- 柱状图 3 -->
       <view class="wxml2canvas-item chart-container3">
-        <canvas hidden="{{!showCavans3}}" id="valuationChart" canvas-id="valuationChart" class="wxml2canvas-item valuation-chart"></canvas>
-        <image hidden="{{showCavans3}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" />
+        <canvas wx:if="{{showCavans3}}" id="valuationChart" canvas-id="valuationChart" class="wxml2canvas-item valuation-chart"></canvas>
+        <image wx:elif="{{!showCavans3 && valuationChartImg}}" src="{{valuationChartImg}}" class="wxml2canvas-item valuation-chart-image" style="width:100%;height:100%;"  />
       </view>
 
     </view>
@@ -240,7 +240,7 @@
   <view class="wxml2canvas-item section7 section5 section">
     <view class="wxml2canvas-item title">
       <view class="wxml2canvas-item square" />
-      <view class="wxml2canvas-item ticker_name" data-text="Conclusion and Recommendations">
+      <view class="wxml2canvas-item ticker_name">
         <view class="wxml2canvas-item" data-text="Conclusion and">Conclusion and</view>
         <view class="wxml2canvas-item last" data-text="Recommendations">Recommendations</view>
       </view>
@@ -252,14 +252,14 @@
       <view class="wxml2canvas-item section5-content">
         <view class="wxml2canvas-item section7-content-item" wx:for="{{section7}}" wx:key="{{index}}">
           <view class="wxml2canvas-item item-value">
-            <view class="wxml2canvas-item item-value-text">
+            <view class="wxml2canvas-item item-value-text" style="width: 100%;line-height:normal">
               <view class="wxml2canvas-item" data-text="{{item.title}}">{{item.title}}</view>
               <view class="wxml2canvas-item item-value-num" data-text="$ {{item.value}} T"> $ {{item.value}} T </view>
             </view>
-            <view class="wxml2canvas-item item-value-status">
-              <view class="wxml2canvas-item {{item.status == 'down' ? 'trend-icon' : 'icon-red'}}" data-text="{{item.status == 'down' ? '⬇' : '⬆'}}">{{item.status == 'down' ? '⬇' : '⬆'}}</view>
+            <view class="wxml2canvas-item item-value-status" style="width: 100%;justify-content: center;">
+              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.status == 'down' ? arrow_down_image : arrow_up_image}}"  />
             </view>
-            <view class="wxml2canvas-item item-value-desc">
+            <view class="wxml2canvas-item item-value-desc" style="width: 100%;">
               <view class="wxml2canvas-item item-value-desc-text" data-text="{{item.desc}}">{{item.desc}}</view>
               <view class="wxml2canvas-item {{item.status == 'up' ? 'item-percent-red' : 'item-percent'}}" data-text="$ {{item.percent}}"> $ {{item.percent}} </view>
             </view>

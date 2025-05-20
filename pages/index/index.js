@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: indexLists()
+    list: indexLists
   },
 
   onTapList(e) {

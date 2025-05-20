@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { drawBar, drawHorizontalArrow, drawValueText } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists } from '../../utils/index'
 
 Page({
   data: {
@@ -20,6 +20,9 @@ Page({
     categoryLabels: ['P/E Ratio', 'EV/EBITDA'], // 新增底部类别标签数据
     
     animationData: {},
+    
+    arrow_up_image:'/assets/image/arrow/arrow_up.png',
+    arrow_down_image:'/assets/image/arrow/arrow_down.png',
 
     section3Datas:{
       texts:[
@@ -109,10 +112,25 @@ Page({
     showCavans1:true,
     showCavans2:true,
     showCavans3:true,
+    pageTitle: '',
+    pageId: '',
+    detailLogo:'',
     currentPercent: 0 // 当前百分比
   },
 
-  onLoad(){
+  onLoad(options){
+
+    // options 就是路径参数对象
+    const { title, id } = options;
+    console.log('页面参数:', title, id);
+
+    // 可以将参数保存到 data 或用于后续逻辑
+    this.setData({
+      pageTitle: title,
+      pageId: id,
+      detailLogo:indexLists.find(item => item.id === id).image
+    });
+
     // 初始化加载动画
     this.initBars()
     this.initBars2()
@@ -173,7 +191,7 @@ Page({
 
   async initDatas(){
     // 传当天日期 取得就是前一天数据吗
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=AAPL&date=2025-05-19`)
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-19`)
 
     console.log('res==',res)
 
@@ -195,7 +213,7 @@ Page({
     const centerY = height / 2;
     const radius = width / 2 - 20;
     const lineWidth = 10;
-    const target = 39.3; // 目标百分比
+    const target = 79.3; // 目标百分比
     let current = 0;
 
     function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {
@@ -238,46 +256,44 @@ Page({
       ctx.arc(centerX, centerY, radius, start, end);
       ctx.stroke();
 
-      // 虚线指引（从圆环终点向外延伸）
-      const angle = end;
-      const x1 = centerX + radius * Math.cos(angle) + 5;
-      const y1 = centerY + radius * Math.sin(angle) - 10;
+      // 虚线指引（从圆环起始向外延伸）
+      // 固定虚线起点为圆的起始位置，并整体向下偏移10px
+      // const angle = start;
+      const x0 = centerX + (radius + lineWidth / 2) * Math.cos(start) + 20; // 圆环最外边缘顶部
+      const y0 = centerY + (radius + lineWidth / 2) * Math.sin(start);  
 
-      // 第一段：沿圆弧方向延伸 18px
-      const len1 = 18;
-      const x2 = x1 + len1 * Math.cos(angle);
-      const y2 = y1 + len1 * Math.sin(angle);
+      // 钝角夹角（如120°），每边与竖直方向夹角为30°
+      const theta = Math.PI / 3; // 30°
+      const len = 18; // 虚线长度
 
-      // 第二段：水平向右 30px
-      const len2 = 30;
-      const x3 = x2 + len2;
-      const y3 = y2;
+      // 左边虚线
+      const x1 = x0 - len * Math.sin(theta);
+      const y1 = y0 + len * Math.cos(theta);
+      // 右边虚线
+      const x2 = x0 + len * Math.sin(theta);
+      const y2 = y0 + len * Math.cos(theta);
 
-      // 绘制第一段虚线
-      drawDashedLine(ctx, x1, y1, x2, y2);
+      // 绘制左边虚线
+      drawDashedLine(ctx, x0, y0, x1, y1);
+      // 绘制右边虚线
+      drawDashedLine(ctx, x0, y0, x2, y2);
 
-      // 绘制拐弯后的水平虚线
-      drawDashedLine(ctx, x2, y2, x3, y3);
-
-      ctx.draw(false,()=>{
-        setTimeout(() => {
+      ctx.draw(false,async()=>{
+        setTimeout(()=>{
           wx.canvasToTempFilePath({
-            canvasId: 'ringCanvas',
-            width: width,
-            height: height,
+            canvasId:'ringCanvas',
             success: res => {
-              this.setData({ 
-                ringCanvasImg: res.tempFilePath,
-            },()=>{
-              // 第二步：延迟一点再隐藏canvas，显示image
-              setTimeout(() => {
-                this.setData({
-                  showCavans: false
-                });
+              this.setData({
+                ringCanvasImg:res.tempFilePath
+              },()=>{
+                setTimeout(() => {
+                  this.setData({
+                    showCavans: false
+                  });
                 }, 400); // 400ms延迟，确保image src已渲染
               })
             }
-          },this);
+          });
         },2500)
       });
     };
@@ -351,15 +367,23 @@ Page({
         this.setData({ animationProgress: newProgress }, () => {
           ctx.draw(false, () => {
             this.data.animationTimer = setTimeout(animate, 30);
-            wx.canvasToTempFilePath({
-              canvasId: 'columnChart',
-              success: res => {
-                this.setData({ 
-                  columnChartImg: res.tempFilePath,
-                  showCavans1: false // 隐藏canvas，显示image
-                });
-              }
-            },this);
+
+            setTimeout(()=>{
+              wx.canvasToTempFilePath({
+                canvasId:'columnChart',
+                success: res => {
+                  this.setData({
+                    columnChartImg:res.tempFilePath
+                  },()=>{
+                    setTimeout(() => {
+                      this.setData({
+                        showCavans1: false
+                      });
+                    }, 400); // 400ms延迟，确保image src已渲染
+                  })
+                }
+              });
+            },2500)
           });
         });
       } else {
@@ -415,15 +439,24 @@ Page({
         this.setData({ animationProgress: newProgress }, () => {
           ctx.draw(false, () => {
             this.data.animationTimer = setTimeout(animate, 30);
-            wx.canvasToTempFilePath({
-              canvasId: 'columnChart2',
-              success: res => {
-                this.setData({ 
-                  columnChartImg2: res.tempFilePath,
-                  showCavans2: false // 隐藏canvas，显示image
-                });
-              }
-            },this);
+
+            setTimeout(()=>{
+              wx.canvasToTempFilePath({
+                canvasId:'columnChart2',
+                success: res => {
+                  this.setData({
+                    columnChartImg2:res.tempFilePath
+                  },()=>{
+                    setTimeout(() => {
+                      this.setData({
+                        showCavans2: false
+                      });
+                    }, 400); // 400ms延迟，确保image src已渲染
+                  })
+                }
+              });
+            },2500)
+
           });
         });
       } else {
@@ -491,15 +524,23 @@ Page({
       }
 
       ctx.draw(false, () => {
-        wx.canvasToTempFilePath({
-          canvasId: 'valuationChart',
-          success: res => {
-            this.setData({ 
-              valuationChartImg: res.tempFilePath,
-              showCavans3: false // 隐藏canvas，显示image
-            });
-          }
-        },this);
+
+        setTimeout(()=>{
+          wx.canvasToTempFilePath({
+            canvasId:'valuationChart',
+            success: res => {
+              this.setData({
+                valuationChartImg:res.tempFilePath
+              },()=>{
+                setTimeout(() => {
+                  this.setData({
+                    showCavans3: false
+                  });
+                }, 400); // 400ms延迟，确保image src已渲染
+              })
+            }
+          });
+        },2500)
       })
 
       if (!finished) {

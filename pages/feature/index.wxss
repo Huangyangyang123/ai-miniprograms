@@ -194,7 +194,7 @@
 
 .section3 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   color: #fff;
   height: fit-content;
 }
@@ -240,7 +240,13 @@
 
 /* 趋势箭头图标 */
 .section3 .trend-icon {
-  margin-right: 8rpx; 
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.arrow-image{
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .section3 .right {
@@ -367,7 +373,8 @@
 }
 
 .section6 .chart-container3 {
-  width: 100%;
+  width: 350px;
+  height: 450px;
 }
 .section6 .valuation-chart {
   width: 350px;
@@ -390,7 +397,6 @@
   font-size: 44rpx;
   color: #D7D8D6;
   margin-top: 40rpx;
-  margin-bottom: 40rpx;
 }
 
 .section5 .card .header{
@@ -413,11 +419,13 @@
   display: flex;
   justify-content: space-between;
   margin: 20rpx 0;
-  width: 48%;
 }
 
 .section5 .setwidth{
   width: 100%;
+}
+.section5 .setwidth .trend-text{
+  width: 10%;
 }
 
 .section5 .item-icon{
@@ -439,13 +447,14 @@
 
 .section5 .item-value-text{
   font-weight: 100;
-  width: fit-content;
+  width: 100%;
+  line-height: 90rpx;
 }
 
 .section5 .trend-text{
-  margin: 0 6rpx;
+  /* margin: 0 6rpx; */
   font-weight: 100;
-  width: fit-content;
+  width: 25%;
 }
 
 .section5 .icon-red{
@@ -466,6 +475,8 @@
 }
 .section7 .last{
   margin: 20rpx 0;
+  height: fit-content;
+  width: fit-content;
 }
 .section7 .square{
   margin-top: -38px;

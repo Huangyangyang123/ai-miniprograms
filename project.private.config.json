@@ -8,16 +8,16 @@
     "miniprogram": {
       "list": [
         {
-          "name": "图表测试",
-          "pathName": "pages/chart/index",
-          "query": "",
+          "name": "报告生成页面",
+          "pathName": "pages/feature/index",
+          "query": "title=%E8%8B%B9%E6%9E%9C&id=02015.HK",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "报告生成页面",
-          "pathName": "pages/feature/index",
-          "query": "title=%E8%8B%B9%E6%9E%9C",
+          "name": "图表测试",
+          "pathName": "pages/chart/index",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }

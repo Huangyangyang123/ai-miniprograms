@@ -2,7 +2,7 @@
 <view class="container">
   <view class="list" wx:for="{{list}}" wx:key="index" bindtap="onTapList" data-tab="{{item.title}}" data-id="{{item.id}}">
     <view class="box">
-      <image 	mode="aspectFit" class="image_logos" src="{{item.image}}" />
+      <image mode="aspectFit" class="image_logos" src="{{item.image}}" />
     </view>
     <view class="text">{{item.title}}</view>
   </view>
