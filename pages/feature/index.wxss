@@ -109,6 +109,7 @@
 .section2 .desc .tag{
   background-color: #767676;
   width: fit-content;
+  display: inline-block;
   padding: 4rpx;
   font-weight: 350;
   font-size: 16rpx;
@@ -117,6 +118,7 @@
   vertical-align: middle;
   border-radius: 4rpx;
   color: #EDEDED;
+  flex-shrink: 0; /* 防止被压缩 */
 }
 .section2 .link{
   font-family: Univers Next for HSBC;
