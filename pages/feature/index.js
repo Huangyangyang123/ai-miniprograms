@@ -80,7 +80,7 @@ Page({
     section7Summarys:[
       {
         title:'Recommendations',
-        desc:'Investment Recommendation: Buy'
+        desc:''
       },
       {
         title:'Summary',
@@ -104,11 +104,12 @@ Page({
       { value: 110.0, color: '#DC2A31', label: 'Year 4' },
       { value: 114.0, color: '#DC2A31', label: 'Year 5' }
     ],
+    ringCanvasImgs:[],
     ringCanvasImg:null,
     columnChartImg:null,
     columnChartImg2:null,
     valuationChartImg:null,
-    showCavans:true,
+    showsCavans:[true,true],
     showCavans1:true,
     showCavans2:true,
     showCavans3:true,
@@ -118,7 +119,7 @@ Page({
     currentPercent: 0 // 当前百分比
   },
 
-  onLoad(options){
+  async onLoad(options){
 
     // options 就是路径参数对象
     const { title, id } = options;
@@ -131,6 +132,8 @@ Page({
       detailLogo:indexLists.find(item => item.id === id).image
     });
 
+    await this.initDatas()
+
     // 初始化加载动画
     this.initBars()
     this.initBars2()
@@ -138,7 +141,8 @@ Page({
   },
 
 
-  onReady() {
+  async onReady() {
+    await this.initDatas()
     this.initRings();
     this.initBars()
     this.initBars2()
@@ -191,12 +195,70 @@ Page({
 
   async initDatas(){
     // 传当天日期 取得就是前一天数据吗
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-19`)
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-22`)
 
     console.log('res==',res)
 
+    const columnData2Datas = [...res.cash_flow_forecasts]?.map(item=>{
+      return{
+        value: item.numeric_value,
+        color: '#DC2A31',
+        label: `Year ${item.year}`,
+        valueText: item.amount,
+      }
+    })
+
+    const market_comparisons = [
+      {
+        title: 'current_market_cap',
+        desc: 'final_valuation',
+        status: res.market_comparison.final_valuation_trend,
+        value: res.market_comparison.current_market_cap,
+        percent: res.market_comparison.final_valuation,
+      },
+      {
+        title: 'value_per_share',
+        desc: 'final_valuation',
+        status: res.market_comparison.value_per_share_trend,
+        value: res.market_comparison.current_price,
+        percent: res.market_comparison.value_per_share,
+      }
+    ]
+
+    console.log('columnData2Datas==',columnData2Datas)
+
+    const section7SummarysData = this.data.section7Summarys.map((item,index)=>{
+      return {
+        title:item.title,
+        desc:index == 0 ? `Investment Recommendation: ${res.recommendation.action}` : res.final_summary
+      }
+    })
+
+    const columnDatas = [
+      {
+        value:Number(res.peer_comparison.valuation_comparison.current_company.peer_comparisons[0].metrics.p_e_ratio.replace('x','')),
+        color: '#cccccc',
+        type: 'gray',
+        label: res.peer_comparison.valuation_comparison.current_company.peer_comparisons[0].metrics.p_e_ratio,
+      },
+      {
+        value:Number(res.peer_comparison.valuation_comparison.current_company.metrics.p_e_ratio.replace('x','')),
+        color: '#e63946',
+        type: 'red',
+        label: res.peer_comparison.valuation_comparison.current_company.metrics.p_e_ratio,
+      }
+    ]
+
+    console.log('columnDatas00',columnDatas)
+
+
     this.setData({
-      mockDatas
+      mockDatas:res,
+      columnData2:columnData2Datas,
+      section5Text1:res.risk_factors.join(','),
+      section7Summarys:section7SummarysData,
+      columnData:columnDatas,
+      section7:market_comparisons
     })
   },
 
@@ -205,112 +267,121 @@ Page({
     const width = 75;  // 画布宽度（单位 px，和 wxml 保持一致，150rpx≈75px，建议用 px 单位）
     const height = 75;
 
+    const ringCanvasImgs = [];
+    const showsCavans = [true,true]
+    const { mockDatas } = this.data
 
-    const ctx = wx.createCanvasContext('ringCanvas');
 
+    mockDatas.business_segments.forEach((segment,index)=>{
+      const ctx = wx.createCanvasContext(`ringCanvas${index}`,this);
 
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radius = width / 2 - 20;
-    const lineWidth = 10;
-    const target = 79.3; // 目标百分比
-    let current = 0;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = width / 2 - 20;
+      const lineWidth = 10;
+      const target = segment.margin; // 当前业务板块的百分比
+      let current = 0;
 
-    function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      const dashCount = Math.floor(len / (dashLen + gapLen));
-      const dashX = dx / dashCount;
-      const dashY = dy / dashCount;
-      for (let i = 0; i < dashCount; i++) {
-        const startX = x1 + dashX * i;
-        const startY = y1 + dashY * i;
-        const endX = startX + (dashX * dashLen) / (dashLen + gapLen);
-        const endY = startY + (dashY * dashLen) / (dashLen + gapLen);
+      function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const dashCount = Math.floor(len / (dashLen + gapLen));
+        const dashX = dx / dashCount;
+        const dashY = dy / dashCount;
+        for (let i = 0; i < dashCount; i++) {
+          const startX = x1 + dashX * i;
+          const startY = y1 + dashY * i;
+          const endX = startX + (dashX * dashLen) / (dashLen + gapLen);
+          const endY = startY + (dashY * dashLen) / (dashLen + gapLen);
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.setStrokeStyle('#DC2A31');
+          ctx.setLineWidth(1);
+          ctx.stroke();
+        }
+      }
+
+      const draw = (percent) => {
+        ctx.clearRect(0, 0, width, height);
+
+        // 背景圆环
         ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.setStrokeStyle('#DC2A31');
-        ctx.setLineWidth(1);
+        ctx.setLineWidth(lineWidth);
+        ctx.setStrokeStyle('#888');
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.stroke();
-      }
-    }
 
-    const draw = (percent) => {
-      ctx.clearRect(0, 0, width, height);
+        // 红色环
+        const start = -Math.PI / 2;
+        const end = start + (2 * Math.PI * percent / 100);
+        ctx.beginPath();
+        ctx.setStrokeStyle('#DC2A31');
+        ctx.setLineWidth(lineWidth);
+        ctx.arc(centerX, centerY, radius, start, end);
+        ctx.stroke();
 
-      // 背景圆环
-      ctx.beginPath();
-      ctx.setLineWidth(lineWidth);
-      ctx.setStrokeStyle('#888');
-      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx.stroke();
+        // 虚线指引（从圆环起始向外延伸）
+        // 固定虚线起点为圆的起始位置，并整体向下偏移10px
+        // const angle = start;
+        const x0 = centerX + (radius + lineWidth / 2) * Math.cos(start) + 20; // 圆环最外边缘顶部
+        const y0 = centerY + (radius + lineWidth / 2) * Math.sin(start);  
 
-      // 红色环
-      const start = -Math.PI / 2;
-      const end = start + (2 * Math.PI * percent / 100);
-      ctx.beginPath();
-      ctx.setStrokeStyle('#DC2A31');
-      ctx.setLineWidth(lineWidth);
-      ctx.arc(centerX, centerY, radius, start, end);
-      ctx.stroke();
+        // 钝角夹角（如120°），每边与竖直方向夹角为30°
+        const theta = Math.PI / 3; // 30°
+        const len = 18; // 虚线长度
 
-      // 虚线指引（从圆环起始向外延伸）
-      // 固定虚线起点为圆的起始位置，并整体向下偏移10px
-      // const angle = start;
-      const x0 = centerX + (radius + lineWidth / 2) * Math.cos(start) + 20; // 圆环最外边缘顶部
-      const y0 = centerY + (radius + lineWidth / 2) * Math.sin(start);  
+        // 左边虚线
+        const x1 = x0 - len * Math.sin(theta);
+        const y1 = y0 + len * Math.cos(theta);
+        // 右边虚线
+        const x2 = x0 + len * Math.sin(theta);
+        const y2 = y0 + len * Math.cos(theta);
 
-      // 钝角夹角（如120°），每边与竖直方向夹角为30°
-      const theta = Math.PI / 3; // 30°
-      const len = 18; // 虚线长度
+        // 绘制左边虚线
+        drawDashedLine(ctx, x0, y0, x1, y1);
+        // 绘制右边虚线
+        drawDashedLine(ctx, x0, y0, x2, y2);
 
-      // 左边虚线
-      const x1 = x0 - len * Math.sin(theta);
-      const y1 = y0 + len * Math.cos(theta);
-      // 右边虚线
-      const x2 = x0 + len * Math.sin(theta);
-      const y2 = y0 + len * Math.cos(theta);
+        ctx.draw(false,async()=>{
+          setTimeout(()=>{
+            wx.canvasToTempFilePath({
+              canvasId:`ringCanvas${index}`,
+              success: res => {
+                ringCanvasImgs[index] = res.tempFilePath
+                showsCavans[index] = false
+                this.setData({
+                  ringCanvasImgs
+                },()=>{
+                  setTimeout(() => {
+                    this.setData({
+                      showsCavans
+                    });
+                  }, 400); // 400ms延迟，确保image src已渲染
+                })
+              }
+            });
+          },2500)
+        });
+      };
 
-      // 绘制左边虚线
-      drawDashedLine(ctx, x0, y0, x1, y1);
-      // 绘制右边虚线
-      drawDashedLine(ctx, x0, y0, x2, y2);
+      const animate = () => {
+        if (current >= target) {
+          this.setData({ currentPercent: target.toFixed(2) });
+          draw(target);
+          return;
+        }
+        current += 0.5;
+        this.setData({ currentPercent: current.toFixed(2) });
+        draw(current);
+        setTimeout(animate, 16);
+      };
 
-      ctx.draw(false,async()=>{
-        setTimeout(()=>{
-          wx.canvasToTempFilePath({
-            canvasId:'ringCanvas',
-            success: res => {
-              this.setData({
-                ringCanvasImg:res.tempFilePath
-              },()=>{
-                setTimeout(() => {
-                  this.setData({
-                    showCavans: false
-                  });
-                }, 400); // 400ms延迟，确保image src已渲染
-              })
-            }
-          });
-        },2500)
-      });
-    };
+      animate();
 
-    const animate = () => {
-      if (current >= target) {
-        this.setData({ currentPercent: target.toFixed(2) });
-        draw(target);
-        return;
-      }
-      current += 0.5;
-      this.setData({ currentPercent: current.toFixed(2) });
-      draw(current);
-      setTimeout(animate, 16);
-    };
 
-    animate();
+    })
   },
 
   initBars(){
@@ -428,7 +499,7 @@ Page({
         this.drawReflection(ctx, x, y, height, columnData2[i].color,'bar2');
 
         // 绘制顶部数据标签
-        this.drawDataLabel(ctx, x, y, `$${columnData2[i].value.toFixed(1)}B`,'bar2');
+        this.drawDataLabel(ctx, x, y, `${columnData2[i].valueText}`,'bar2');
 
         // 绘制底部类别标签
         this.drawCategoryLabel(ctx, x, canvasHeight + 10, columnData2[i].label,'bar2');
@@ -493,8 +564,9 @@ Page({
       ctx.clearRect(0, 0, 1000, 1000); // 清空画布
 
       // 绘制柱子
+      const {mockDatas} = this.data
       for (let i = 0; i < 3; i++) {
-        drawBar(ctx, i, currentHeights[i], barWidth, barGap, canvasHeight, colors[i], offsetX);
+        drawBar(ctx, i, currentHeights[i], barWidth, barGap, canvasHeight, colors[i], offsetX,mockDatas.valuation_metrics.Weighted_valuation_range.split('-')[0]);
       }
 
       // 只在动画结束后绘制箭头和文字
@@ -515,12 +587,16 @@ Page({
         drawHorizontalArrow(ctx, barWidth, barGap, canvasHeight, 
                               'Incorporate Qualitative Factors and Validate',
                               arrowStartX, 
-                              canvasHeight - 100, barGap - 30);
+                              canvasHeight - 100, barGap - 30)
+                        
+                            
+        const { mockDatas } = this.data
+
         
         // 绘制柱子顶部数值
-        drawValueText(ctx, 0, barWidth, barGap, '$3.1T', canvasHeight, targetHeights[0]);
-        drawValueText(ctx, 1, barWidth, barGap, '$3.3T', canvasHeight, targetHeights[1]);
-        drawValueText(ctx, 2, barWidth, barGap, '$3.15T', canvasHeight, targetHeights[2]);
+        drawValueText(ctx, 0, barWidth, barGap, mockDatas.valuation_metrics.initial_valuation, canvasHeight, targetHeights[0]);
+        drawValueText(ctx, 1, barWidth, barGap, mockDatas.valuation_metrics.Weighted_valuation_range.split('-')[1], canvasHeight, targetHeights[1]);
+        drawValueText(ctx, 2, barWidth, barGap, mockDatas.valuation_metrics.final_valuation, canvasHeight, targetHeights[2]);
       }
 
       ctx.draw(false, () => {

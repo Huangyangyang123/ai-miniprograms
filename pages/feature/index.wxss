@@ -5,7 +5,7 @@
   padding: 40rpx 20rpx;
 }
 .logo{
-  background: linear-gradient(180deg, #ECECEC 0%, #D8D8D8 100%);
+  /* background: linear-gradient(180deg, #ECECEC 0%, #D8D8D8 100%); */
   width: 128rpx;
   height: 128rpx;
   border-radius: 16rpx;
@@ -95,8 +95,9 @@
 
 .section2 .desc{
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   font-family: Univers Next for HSBC;
   font-weight: 300;
   font-size: 24rpx;
@@ -396,7 +397,7 @@
   font-weight: 300;
   font-size: 44rpx;
   color: #D7D8D6;
-  margin-top: 40rpx;
+  margin-top: 20rpx;
 }
 
 .section5 .card .header{
@@ -418,6 +419,8 @@
 .section5 .section5-content-item{
   display: flex;
   justify-content: space-between;
+  width: 40%;
+  padding: 0 20rpx;
   margin: 20rpx 0;
 }
 
@@ -425,7 +428,8 @@
   width: 100%;
 }
 .section5 .setwidth .trend-text{
-  width: 10%;
+  width: initial;
+  margin-left: 6rpx;
 }
 
 .section5 .item-icon{
@@ -443,7 +447,9 @@
 .section5 .item-value-status{
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
+
 
 .section5 .item-value-text{
   font-weight: 100;
@@ -546,6 +552,10 @@
   margin: 44rpx 0;
   font-size: 24rpx;
   color: #EDEDED;
+}
+
+.section7 .section5-content{
+  display: initial;
 }
 
 

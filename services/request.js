@@ -9,7 +9,7 @@ const serviceApi = (url, method = 'GET', data = {}) => {
       header: {
         'content-type': 'application/json'
       },
-      success: res => resolve(res),
+      success: res => resolve(res?.data),
       fail: err => reject(err)
     })
   })

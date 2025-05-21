@@ -23,17 +23,24 @@
     <view class="wxml2canvas-item border-style" data-text="Latest News">
       Latest News
     </view>
-    <view class="wxml2canvas-item desc">
-      <view class="wxml2canvas-item" data-text="Apple stock rose after tariff exemptions on smartphones and electronics were announced.">
-        Apple stock rose after tariff exemptions on smartphones and electronics were announced.
-        <text class="wxml2canvas-item tag" data-text="Reuters">Reuters</text> 
+    <view class="wxml2canvas-item desc" wx:for="{{mockDatas.news_items}}" wx:key="{{index}}">
+      <view class="wxml2canvas-item" data-text="{{item.content}}">
+        {{item.content}}
+        <text class="wxml2canvas-item tag" data-text="{{item.source}}">{{item.source}}</text> 
+      </view>
+      <view class="wxml2canvas-item link" data-text="{{item.link}}">
+        {{item.link}}
       </view>
     </view>
 
-    <view class="wxml2canvas-item link" data-text="https://www.reuters.com/technology/apple-shares-lead-tech-higher-after-tariff-exempti">
-      https://www.reuters.com/technology/apple-shares-lead-tech-higher-after-tariff-exempti
+    <view class="wxml2canvas-item border-style" data-text="Industry and Competition Analysis">
+      Industry and Competition Analysis
     </view>
-
+    <view class="wxml2canvas-item desc">
+      <view class="wxml2canvas-item" data-text="Industry and Competition Analysis">
+        {{mockDatas.industry_overview}}
+      </view>
+    </view>
   </view>
 
   <view class="wxml2canvas-item section3 section">
@@ -48,20 +55,20 @@
       Business Segment Analysis
       </view>
 
-    <view class="wxml2canvas-item card">
+    <view class="wxml2canvas-item card" wx:for="{{mockDatas.business_segments}}" wx:key="{{index}}">
       <view class="wxml2canvas-item header">
-        <view class="wxml2canvas-item icon" data-text="📱">📱</view>
-        <view class="wxml2canvas-item title" data-text="iPhone">iPhone</view>
+        <!-- <view class="wxml2canvas-item icon" data-text="📱">📱</view> -->
+        <view class="wxml2canvas-item title" data-text="{{item.segment_name}}">{{item.segment_name}}</view>
       </view>
 
       <view class="container wxml2canvas-item">
         <!-- 左侧内容 -->
         <view class="left wxml2canvas-item">
           <view class="subtitle wxml2canvas-item" data-text="Revenue">Revenue</view>
-            <view class="revenue wxml2canvas-item" data-text="$200.62B">$200.62B</view>
+            <view class="revenue wxml2canvas-item" data-text="{{item.revenue}}">{{item.revenue}}</view>
             <view class="change wxml2canvas-item">
               <image class="wxml2canvas-item trend-icon" mode="aspectFit" src="{{arrow_down_image}}" />
-              <text class="wxml2canvas-item" data-text="-1.90% YoY">-1.90% YoY</text>
+              <text class="wxml2canvas-item" data-text="{{item.growth}}">{{item.growth}}</text>
             </view>
         </view>
 
@@ -71,15 +78,16 @@
           <!-- type="2d" 使用2d会漂在页面上 不友好  -->
            <!-- 即便不用2d 在真机也会漂起来 使用wx:if解决一下 -->
             <!-- hidden="{{!showCavans}}" -->
-          <canvas wx:if="{{showCavans}}" canvas-id="ringCanvas" id="ringCanvas" style="width: 75px; height: 75px;"></canvas>
+
+          <canvas wx:if="{{showsCavans[index]}}" canvas-id="ringCanvas{{index}}" id="ringCanvas{{index}}" style="width: 75px; height: 75px;"></canvas>
           <!-- hidden="{{showCavans}}" -->
            <!-- 用 hidden，可以给 image 加一个唯一 key -->
-          <image mode="aspectFit" wx:elif="{{!showCavans && ringCanvasImg}}" src="{{ringCanvasImg}}" class="wxml2canvas-item" style="width:75px;height:75px;" />
+          <image mode="aspectFit" wx:elif="{{!showsCavans[index] && ringCanvasImgs[index]}}" src="{{ringCanvasImgs[index]}}" class="wxml2canvas-item" style="width:75px;height:75px;" />
           
           <view class="label wxml2canvas-item">
-            <view class="percentage wxml2canvas-item" data-text="{{currentPercent}}%">{{currentPercent}}%</view>
+            <view class="percentage wxml2canvas-item" data-text="{{item.margin}}">{{item.margin}}</view>
             <view class="description wxml2canvas-item" data-text="Approximately">Approximately</view>
-            <view class="description wxml2canvas-item" data-text="$78.84B">$78.84B</view>
+            <view class="description wxml2canvas-item" data-text="{{item.revenue_margin_absolute}}">{{item.revenue_margin_absolute}}</view>
           </view>
         </view>
       </view>
@@ -90,7 +98,7 @@
 
     <view class="wxml2canvas-item summary">
       <view class="wxml2canvas-item summary-title" data-text="Summary">Summary</view>
-        <view class="wxml2canvas-item p{{index+1}}" data-text="{{item.desc}}" wx:for="{{section3Datas.texts}}" wx:key="{{index}}">{{item.desc}}</view>
+        <view class="wxml2canvas-item p1" data-text="{{mockDatas.segment_summary}}">{{mockDatas.segment_summary}}</view>
     </view>
   </view>
 
@@ -103,7 +111,7 @@
       </view>
       <view class="bar-desc">
         <view class="bar-icon bar-red"></view>
-        <view class="wxml2canvas-item" data-text="Valuation Multiples - Apple">Valuation Multiples - Apple</view>
+        <view class="wxml2canvas-item" data-text="Valuation Multiples - {{mockDatas.peer_comparison.valuation_comparison.current_company.name}}">Valuation Multiples - {{mockDatas.peer_comparison.valuation_comparison.current_company.name}}</view>
       </view>
       
       <!-- 柱状图 -->
@@ -116,7 +124,7 @@
     </view>
     <view class="wxml2canvas-item summary">
       <view class="wxml2canvas-item summary-title" data-text="Summary">Summary</view>
-      <view class="wxml2canvas-item p2" data-text="{{section4}}">{{section4}}</view>
+      <view class="wxml2canvas-item p2" data-text="{{mockDatas.peer_comparison.summary}}">{{mockDatas.peer_comparison.summary}}</view>
     </view>
   </view>
 
@@ -138,17 +146,16 @@
         Projected revenues over the next five years
       </view>
       <view class="wxml2canvas-item section5-content">
-        <view class=" {{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{section5}}" wx:key="{{index}}">
+        <view class=" {{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{mockDatas.revenue_forecasts}}" wx:key="{{index}}">
           <!-- <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
           </view> -->
           <view class="wxml2canvas-item item-value">
-            <view class="wxml2canvas-item item-value-text" data-text="{{item.title}}">{{item.title}}</view>
-            <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.desc}}">{{item.desc}}</view> -->
+            <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.trend}}">{{item.trend}}</view> -->
             <view class="wxml2canvas-item item-value-status">
-              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.status == 'down' ? arrow_down_image : arrow_up_image}}" />
-              <view class="wxml2canvas-item trend-text" data-text="~{{item.percent}}%">~{{item.percent}}%</view>
-              <view class="wxml2canvas-item trend-text" data-text="{{item.name}}">{{item.name}}</view>
+              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.trend == 'up' ? arrow_up_image : arrow_down_image}}" />
+              <view class="wxml2canvas-item trend-text" data-text="{{item.growth_rate}}">{{item.growth_rate}}</view>
+              <view class="wxml2canvas-item trend-text" data-text="{{item.segment_name}}">{{item.segment_name}}</view>
             </view>
           </view>  
         </view>
@@ -175,14 +182,14 @@
 
     <view class="wxml2canvas-item summary">
       <view class="wxml2canvas-item summary-title" data-text="Summary">Summary</view>
-      <view class="wxml2canvas-item p2" data-text="{{section5Text}}">{{section5Text}}</view> 
+      <view class="wxml2canvas-item p2" data-text="{{mockDatas.cash_flow_summary}}">{{mockDatas.cash_flow_summary}}</view> 
     </view>
 
     <view class="wxml2canvas-item border-style" data-text="Estimate the Cost of Capital">
       Estimate the Cost of Capital
     </view>
-    <view class="wxml2canvas-item section5-desc" data-text="WACC Value: 7.5%">
-      WACC Value: 7.5%
+    <view class="wxml2canvas-item section5-desc" data-text="WACC Value: {{mockDatas.wacc}}">
+      WACC Value: {{mockDatas.wacc}}
     </view>
 
     <view class="wxml2canvas-item border-style" data-text="Risk Assessment">
@@ -205,7 +212,7 @@
       <view class="wxml2canvas-item bar-desc">
         <view class="wxml2canvas-item bar-icon"></view>
         <view class="wxml2canvas-item bar-desc-text">
-          <view class="wxml2canvas-item" data-text="Initial Valuation: $3.1T U">Initial Valuation: $3.1T U</view>
+          <view class="wxml2canvas-item" data-text="Initial Valuation: {{mockDatas.valuation_metrics.initial_valuation}}">Initial Valuation: {{mockDatas.valuation_metrics.initial_valuation}}</view>
           <view class="wxml2canvas-item" data-text="sing Discounted Free Cash Flow Method">sing Discounted Free Cash Flow Method</view>
         </view>
       </view>
@@ -213,7 +220,7 @@
       <view class="wxml2canvas-item bar-desc">
         <view class="wxml2canvas-item bar-icon bar-hollow"></view>
         <view class="wxml2canvas-item bar-desc-text">
-          <view class="wxml2canvas-item" data-text="Weighted Valuation Range: $2.9T - $3.3T">Weighted Valuation Range: $2.9T - $3.3T</view>
+          <view class="wxml2canvas-item" data-text="Weighted Valuation Range: {{mockDatas.valuation_metrics.iWeighted_valuation_range}}">Weighted Valuation Range: {{mockDatas.valuation_metrics.iWeighted_valuation_range}}</view>
           <view class="wxml2canvas-item" data-text="Explanation: Variations based on growth rates and discount rate">Explanation: Variations based on growth rates and discount rate</view>
           <view class="wxml2canvas-item" data-text="assumptions.">assumptions.</view>
         </view>
@@ -222,7 +229,7 @@
       <view class="wxml2canvas-item bar-desc">
         <view class="wxml2canvas-item bar-icon bar-red"></view>
         <view class="wxml2canvas-item bar-desc-text">
-          <view class="wxml2canvas-item" data-text="Final Valuation: $3.15T">Final Valuation: $3.15T</view>
+          <view class="wxml2canvas-item" data-text="Final Valuation: {{mockDatas.valuation_metrics.final_valuation}}">Final Valuation: {{mockDatas.valuation_metrics.final_valuation}}</view>
           <view class="wxml2canvas-item" data-text="Reason for Difference: Adjustments reflect strong brand loyalty">Reason for Difference: Adjustments reflect strong brand loyalty</view>
           <view class="wxml2canvas-item" data-text="and ecosystem lock-in.">and ecosystem lock-in.</view>
         </view>
@@ -254,14 +261,14 @@
           <view class="wxml2canvas-item item-value">
             <view class="wxml2canvas-item item-value-text" style="width: 100%;line-height:normal">
               <view class="wxml2canvas-item" data-text="{{item.title}}">{{item.title}}</view>
-              <view class="wxml2canvas-item item-value-num" data-text="$ {{item.value}} T"> $ {{item.value}} T </view>
+              <view class="wxml2canvas-item item-value-num" data-text="{{item.value}}">{{item.value}}</view>
             </view>
             <view class="wxml2canvas-item item-value-status" style="width: 100%;justify-content: center;">
               <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.status == 'down' ? arrow_down_image : arrow_up_image}}"  />
             </view>
             <view class="wxml2canvas-item item-value-desc" style="width: 100%;">
               <view class="wxml2canvas-item item-value-desc-text" data-text="{{item.desc}}">{{item.desc}}</view>
-              <view class="wxml2canvas-item {{item.status == 'up' ? 'item-percent-red' : 'item-percent'}}" data-text="$ {{item.percent}}"> $ {{item.percent}} </view>
+              <view class="wxml2canvas-item {{item.status == 'up' ? 'item-percent-red' : 'item-percent'}}" data-text="{{item.percent}}"> {{item.percent}} </view>
             </view>
           </view>  
         </view>
@@ -270,7 +277,7 @@
           Evaluation
         </view>
         <view class="wxml2canvas-item Evaluation-desc" data-text="Undervalued (Difference: +3.8%)">
-          Undervalued (Difference: +3.8%)
+          Undervalued (Difference: {{mockDatas.market_comparison.valuation_percentage}})
         </view>
       </view>
     </view>

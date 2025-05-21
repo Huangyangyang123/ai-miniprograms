@@ -1,5 +1,5 @@
 // 绘制柱子（增强立体效果）
- export const drawBar = (ctx, index, height, barWidth, barGap, canvasHeight, color, drawBar)=>{
+ export const drawBar = (ctx, index, height, barWidth, barGap, canvasHeight, color, drawBar,text)=>{
   const x = drawBar + barGap + (barWidth + barGap) * index;
   const gradientHeight = height * 0.7; // 渐变高度
   
@@ -119,7 +119,7 @@
     ctx.font = '16px Univers Next for HSBC';
     ctx.fillStyle = '#222';
     ctx.textAlign = 'center';
-    ctx.fillText('$2.9T', x + width / 2, y + solidHeight / 2 - 130);
+    ctx.fillText(text, x + width / 2, y + solidHeight / 2 - 130);
     ctx.restore();
 
   }else{
