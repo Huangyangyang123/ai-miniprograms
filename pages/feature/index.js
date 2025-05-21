@@ -109,7 +109,7 @@ Page({
     columnChartImg:null,
     columnChartImg2:null,
     valuationChartImg:null,
-    showsCavans:[true,true],
+    showsCavans:[true,true,true],
     showCavans1:true,
     showCavans2:true,
     showCavans3:true,
@@ -202,7 +202,7 @@ Page({
       return{
         value: item.numeric_value,
         color: '#DC2A31',
-        label: item.year,
+        label: `Year ${item.year}`,
         valueText: item.amount,
       }
     })
@@ -284,7 +284,7 @@ Page({
     const height = 75;
 
     const ringCanvasImgs = [];
-    const showsCavans = [true,true]
+    const showsCavans = [true,true,true]
     const { mockDatas } = this.data
 
 
