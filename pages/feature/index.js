@@ -951,14 +951,42 @@ Page({
     await canvas.draw();
     const filePath = await canvas.toTempFilePath();
 
-    wx.saveImageToPhotosAlbum({
-      filePath,
+    // 主动请求权限
+    wx.authorize({
+      scope: 'scope.writePhotosAlbum',
       success() {
-        wx.showToast({ title: '保存成功', icon: 'success' });
+        wx.saveImageToPhotosAlbum({
+          filePath,
+          success() {
+            wx.showToast({ title: '保存成功', icon: 'success' });
+          },
+          fail() {
+            wx.showToast({ title: '保存失败', icon: 'none' });
+          }
+        });
       },
       fail() {
-        wx.showToast({ title: '保存失败', icon: 'none' });
+        // 用户拒绝授权，弹出设置引导
+        wx.showModal({
+          title: '提示',
+          content: '需要授权保存到相册，请到设置中开启权限',
+          success(res) {
+            if (res.confirm) {
+              wx.openSetting();
+            }
+          }
+        });
       }
-  });
+    });
+
+  //   wx.saveImageToPhotosAlbum({
+  //     filePath,
+  //     success() {
+  //       wx.showToast({ title: '保存成功', icon: 'success' });
+  //     },
+  //     fail() {
+  //       wx.showToast({ title: '保存失败', icon: 'none' });
+  //     }
+  // });
   }
 });

@@ -430,7 +430,7 @@
 }
 .section5 .setwidth .trend-text{
   width: initial;
-  margin-left: 6rpx;
+  margin-left: 12rpx;
 }
 
 .section5 .item-icon{
@@ -455,7 +455,7 @@
 .section5 .item-value-text{
   font-weight: 100;
   width: 100%;
-  line-height: 90rpx;
+  line-height: 32rpx;
 }
 
 .section5 .trend-text{

@@ -110,7 +110,7 @@
         <view class="wxml2canvas-item" data-text="Valuation Multiples - Industry Avg">Valuation Multiples - Industry Avg</view>
       </view>
       <view class="bar-desc">
-        <view class="bar-icon bar-red"></view>
+        <view class="wxml2canvas-item bar-icon bar-red"></view>
         <view class="wxml2canvas-item" data-text="Valuation Multiples - {{mockDatas.peer_comparison.valuation_comparison.current_company.name}}">Valuation Multiples - {{mockDatas.peer_comparison.valuation_comparison.current_company.name}}</view>
       </view>
       
@@ -146,16 +146,17 @@
         Projected revenues over the next five years
       </view>
       <view class="wxml2canvas-item section5-content" style="flex-direction: column;width: 100%;">
-        <view style="width:80%;" class="{{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{mockDatas.revenue_forecasts}}" wx:key="{{index}}">
+        <view style="width:80%" class="{{index == 2 ? 'wxml2canvas-item section5-content-item' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{mockDatas.revenue_forecasts}}" wx:key="{{index}}">
           <!-- <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
           </view> -->
           <view class="wxml2canvas-item item-value" style="width: 100%;">
-            <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.trend}}">{{item.trend}}</view> -->
-            <view class="wxml2canvas-item item-value-status">
+            <view class="wxml2canvas-item item-value-text" data-text="{{item.segment_name}}">{{item.segment_name}}</view>
+            <view class="wxml2canvas-item item-value-text" data-text="{{item.trend}}">{{item.trend}}</view>
+            <view class="wxml2canvas-item item-value-status" style="margin-top: 15rpx;">
               <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.trend == 'up' ? arrow_up_image : arrow_down_image}}" />
               <view class="wxml2canvas-item trend-text" data-text="{{item.growth_rate}}">{{item.growth_rate}}</view>
-              <view class="wxml2canvas-item trend-text" data-text="{{item.segment_name}}" style="width: initial;">{{item.segment_name}}</view>
+              <view class="wxml2canvas-item trend-text" data-text="YoY" style="width: initial;">YoY</view>
             </view>
           </view>  
         </view>
