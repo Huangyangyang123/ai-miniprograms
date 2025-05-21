@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isSystemInfo } from '../../utils/index'
 
 Page({
   data: {
@@ -944,49 +944,80 @@ Page({
     }
   },
   // 保存长图到相册
-  async onSaveImage(){
-    const that = this
+  // async onSaveImage(){
 
-    const canvas = that.selectComponent('#wxml2canvas');
-    await canvas.draw();
-    const filePath = await canvas.toTempFilePath();
+  //   wx.showLoading({
+  //     title: '保存中', // 可自定义提示文字
+  //     mask: true         // 是否显示透明蒙层，防止触摸穿透
+  //   })
 
-    // 主动请求权限
-    wx.authorize({
-      scope: 'scope.writePhotosAlbum',
-      success() {
-        wx.saveImageToPhotosAlbum({
-          filePath,
-          success() {
-            wx.showToast({ title: '保存成功', icon: 'success' });
-          },
-          fail() {
-            wx.showToast({ title: '保存失败', icon: 'none' });
-          }
-        });
-      },
-      fail() {
-        // 用户拒绝授权，弹出设置引导
-        wx.showModal({
-          title: '提示',
-          content: '需要授权保存到相册，请到设置中开启权限',
-          success(res) {
-            if (res.confirm) {
-              wx.openSetting();
-            }
-          }
-        });
-      }
-    });
+  //   const that = this
 
-  //   wx.saveImageToPhotosAlbum({
-  //     filePath,
+  //   const canvas = that.selectComponent('#wxml2canvas');
+  //   await canvas.draw();
+  //   const filePath = await canvas.toTempFilePath();
+
+  //   // 主动请求权限
+  //   wx.authorize({
+  //     scope: 'scope.writePhotosAlbum',
   //     success() {
-  //       wx.showToast({ title: '保存成功', icon: 'success' });
+  //       wx.saveImageToPhotosAlbum({
+  //         filePath,
+  //         success() {
+  //           wx.showToast({ title: '保存成功', icon: 'success' });
+  //           wx.hideLoading();
+  //         },
+  //         fail() {
+  //           wx.showToast({ title: '保存失败', icon: 'none' });
+  //           wx.hideLoading();
+  //         }
+  //       });
   //     },
   //     fail() {
-  //       wx.showToast({ title: '保存失败', icon: 'none' });
+  //       // 用户拒绝授权，弹出设置引导
+  //       wx.hideLoading();
+  //       wx.showModal({
+  //         title: '提示',
+  //         content: '需要授权保存到相册，请到设置中开启权限',
+  //         success(res) {
+  //           if (res.confirm) {
+  //             wx.openSetting();
+  //           }
+  //         }
+  //       });
   //     }
-  // });
+  //   });
+
+  // //   wx.saveImageToPhotosAlbum({
+  // //     filePath,
+  // //     success() {
+  // //       wx.showToast({ title: '保存成功', icon: 'success' });
+  // //     },
+  // //     fail() {
+  // //       wx.showToast({ title: '保存失败', icon: 'none' });
+  // //     }
+  // // });
+  // }
+
+  async onSaveImage() {
+    wx.showLoading({ title: '保存中', mask: true });
+    const canvas = this.selectComponent('#wxml2canvas');
+    await canvas.draw(); // 等待绘制完成
+
+    // 直接用组件的 toTempFilePath 方法
+    const filePath = await canvas.toTempFilePath();
+
+    wx.saveImageToPhotosAlbum({
+      filePath,
+      success() {
+        wx.showToast({ title: '保存成功', icon: 'success' });
+        wx.hideLoading();
+      },
+      fail(err) {
+        wx.showToast({ title: '保存失败', icon: 'none' });
+        wx.hideLoading();
+        console.error('保存失败', err);
+      }
+    });
   }
 });

@@ -356,3 +356,21 @@
     },timer)
   });
  }
+
+export const isSystemInfo = async()=>{
+
+  const systemInfo = wx.getSystemInfoSync();
+
+  const isIOS = /ios/i.test(systemInfo.system)
+
+  const isAndroid = /android/i.test(systemInfo.system);
+
+  if(isIOS){
+    return 'ios'
+  }
+  if(isAndroid){
+    return 'android'
+  }
+}
+ 
+
