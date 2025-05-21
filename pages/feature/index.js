@@ -193,9 +193,8 @@ Page({
 
   },
 
-  async initDatas(){
-    // 传当天日期 取得就是前一天数据吗
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-22`)
+  handleCatchDatas(res){
+    wx.hideLoading();
 
     console.log('res==',res)
 
@@ -203,7 +202,7 @@ Page({
       return{
         value: item.numeric_value,
         color: '#DC2A31',
-        label: `Year ${item.year}`,
+        label: item.year,
         valueText: item.amount,
       }
     })
@@ -260,6 +259,23 @@ Page({
       columnData:columnDatas,
       section7:market_comparisons
     })
+
+  },
+
+  async initDatas(){
+    wx.showLoading({
+      title: '加载中', // 可自定义提示文字
+      mask: true         // 是否显示透明蒙层，防止触摸穿透
+    });
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-22`).catch(err=>{
+      console.log('err==',err)
+      wx.hideLoading();
+      this.handleCatchDatas(mockDatas)
+    })
+
+    this.handleCatchDatas(res)
+
+    
   },
 
   initRings() {
@@ -923,7 +939,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '公司财报报告',
-      path: '/pages/feature/index', // 分享后打开的页面路径
+      path: `/pages/feature/index?title=${this.data.pageTitle}&id=${this.data.pageId}`, // 分享后打开的页面路径
       imageUrl: '/assets/image/share.png' // 可选，自定义分享图片
     }
   },

@@ -334,6 +334,7 @@
   height: 24rpx;
   margin-right: 18rpx;
   background-color: #EDEDED;
+  flex-shrink: 0; /* 防止被压缩 */
 }
 .section .card .bar-desc .bar-red{
   background-color: #DC2A31;

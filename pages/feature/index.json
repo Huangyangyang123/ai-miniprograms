@@ -1,7 +1,7 @@
 {
   "backgroundColor": "#000000",
+  "backgroundTextStyle": "light",
   "navigationBarTitleText": "财报",
-  "component": true,
   "usingComponents": {
     "wxml2canvas": "wxml2canvas-2d"
   }

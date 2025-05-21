@@ -129,7 +129,7 @@
     gradient.addColorStop(0, color);
     gradient.addColorStop(1, lightenColor(color, 30));
     ctx.rect(x, canvasHeight - height, barWidth, height);
-    ctx.fillStyle = gradient;
+    ctx.fillStyle = index == 0 ? '#cccccc' : '#e63946'//gradient;
     ctx.fill();
     
     // 绘制柱子左侧面（蓝色调）

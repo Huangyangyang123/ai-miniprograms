@@ -1,5 +1,6 @@
 {
-  "backgroundColor": "#EDEDED",
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
   "navigationBarTitleText": "公司列表",
   "usingComponents": {}
 }

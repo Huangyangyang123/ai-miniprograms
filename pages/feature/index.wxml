@@ -37,7 +37,7 @@
       Industry and Competition Analysis
     </view>
     <view class="wxml2canvas-item desc">
-      <view class="wxml2canvas-item" data-text="Industry and Competition Analysis">
+      <view class="wxml2canvas-item" data-text="{{mockDatas.industry_overview}}">
         {{mockDatas.industry_overview}}
       </view>
     </view>
@@ -67,7 +67,7 @@
           <view class="subtitle wxml2canvas-item" data-text="Revenue">Revenue</view>
             <view class="revenue wxml2canvas-item" data-text="{{item.revenue}}">{{item.revenue}}</view>
             <view class="change wxml2canvas-item">
-              <image class="wxml2canvas-item trend-icon" mode="aspectFit" src="{{arrow_down_image}}" />
+              <image class="wxml2canvas-item trend-icon" mode="aspectFit" src="{{item.growth_direction == 'up' ? arrow_up_image : arrow_down_image}}" />
               <text class="wxml2canvas-item" data-text="{{item.growth}}">{{item.growth}}</text>
             </view>
         </view>
@@ -94,7 +94,7 @@
 
     </view>
 
-    <view class="wxml2canvas-item lastDay" data-text="Latest Quarter Report (Dec 31, 2024)">Latest Quarter Report (Dec 31, 2024)</view>
+    <view class="wxml2canvas-item lastDay" data-text="Latest Quarter Report ({{mockDatas.segment_quarter_info}})">Latest Quarter Report ({{mockDatas.segment_quarter_info}})</view>
 
     <view class="wxml2canvas-item summary">
       <view class="wxml2canvas-item summary-title" data-text="Summary">Summary</view>
@@ -145,17 +145,17 @@
       <view class="wxml2canvas-item header" data-text="Projected revenues over the next five years">
         Projected revenues over the next five years
       </view>
-      <view class="wxml2canvas-item section5-content">
-        <view class=" {{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{mockDatas.revenue_forecasts}}" wx:key="{{index}}">
+      <view class="wxml2canvas-item section5-content" style="flex-direction: column;width: 100%;">
+        <view style="width:80%;" class="{{index == 2 ? 'wxml2canvas-item section5-content-item setwidth' : 'wxml2canvas-item section5-content-item'}}" wx:for="{{mockDatas.revenue_forecasts}}" wx:key="{{index}}">
           <!-- <view class="wxml2canvas-item item-icon" data-text="{{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}">
             {{item.icon == 'phone' ? '📱' : item.icon == 'watch' ? '⌚️'  : '⚙️'}}
           </view> -->
-          <view class="wxml2canvas-item item-value">
+          <view class="wxml2canvas-item item-value" style="width: 100%;">
             <!-- <view class="wxml2canvas-item item-value-text" data-text="{{item.trend}}">{{item.trend}}</view> -->
             <view class="wxml2canvas-item item-value-status">
               <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.trend == 'up' ? arrow_up_image : arrow_down_image}}" />
               <view class="wxml2canvas-item trend-text" data-text="{{item.growth_rate}}">{{item.growth_rate}}</view>
-              <view class="wxml2canvas-item trend-text" data-text="{{item.segment_name}}">{{item.segment_name}}</view>
+              <view class="wxml2canvas-item trend-text" data-text="{{item.segment_name}}" style="width: initial;">{{item.segment_name}}</view>
             </view>
           </view>  
         </view>
@@ -230,8 +230,7 @@
         <view class="wxml2canvas-item bar-icon bar-red"></view>
         <view class="wxml2canvas-item bar-desc-text">
           <view class="wxml2canvas-item" data-text="Final Valuation: {{mockDatas.valuation_metrics.final_valuation}}">Final Valuation: {{mockDatas.valuation_metrics.final_valuation}}</view>
-          <view class="wxml2canvas-item" data-text="Reason for Difference: Adjustments reflect strong brand loyalty">Reason for Difference: Adjustments reflect strong brand loyalty</view>
-          <view class="wxml2canvas-item" data-text="and ecosystem lock-in.">and ecosystem lock-in.</view>
+          <view class="wxml2canvas-item" data-text="{{mockDatas.valuation_metrics.final_valuation_description}}">{{mockDatas.valuation_metrics.final_valuation_description}}</view>
         </view>
       </view>
 

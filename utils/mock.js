@@ -1,148 +1,165 @@
 export const mockDatas = {
-    "ticker_name": "Xiaomi Corporation (1810.HK)",
-    "business_description": "Global technology leader specializing in smartphones, IoT devices, and electric vehicles (EVs). Business model includes hardware sales, internet services, and retail operations. Key revenue drivers are smartphone shipments, smart home products, and EV expansion. Targets price-sensitive consumers in emerging markets with growing focus on premium segments.",
-    "news_items": [
-      {
-        "content": "Xiaomi shares surge as Jefferies reiterates Buy rating, top pick",
-        "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQeVcyTlJyNlp0RHV1RzJkZ3NMSjlxYWpNR0ttOFlyWTFMR2tDQ194ejhiWlZOSDcyNGp4MFlCekZ2ZFo5bVUyLUNfS08tWVJUUU1RejJxYzhhZUFCaEx6dTNkT2lUS0dwc18wd3VUaUctU21OUzAwM2JROTVsMzZkbllxZkpXMXZCNDltNHBKVGNydU83ZVZGX0JERjh4QTljbHBwOEl0bXJ0SVR2TUJ3T1FXOHM0UExVdmhwOHdSdw?oc=5&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        "content": "iPhone shipments in China fall 9%, while Xiaomi regains top spot",
-        "link": "https://www.phonearena.com/news/apple-seventh-straight-quarter-of-decline-in-china_id169600"
-      },
-      {
-        "content": "Fatal Xiaomi SU7 crash leads to regulatory scrutiny over autonomous driving claims",
-        "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOWlNBd29JVzR0bm1FaGlneXBEZkFfUkl4d2ZCOFZnLWUxeDVNQUNBTm1hVVAxMTdubWpheF9oOXhieUZtOUswS2pyWWZpWTEwY2xELW9lbFk2cTlFMTdKT3laNG9ualZUMTFRR0pZekI5UUJFYmRGTTdXc0M5MkR3WHlNdjhGWG9CX3F4RWdoUjdtN2hBSnlQUzFWeVJvZi1Zb2hEUVp1RmhYd1pMWE9vMF9STGJ2VTRoWklZbzdJSUR1X0FjSjIzNG11dw?oc=5&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        "content": "Xiaomi raises $5.5 billion for EV expansion",
-        "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQamIwQV84NzA2aW9mM3dfLXZIMEpYMVhkRmJTM1V0bF83YTFSbmZ4T1JJSEoyN3g4U0c4VWF6UzJGLW5SS1NhdEV6OFh4dlJPY2RUNWVlc2lyTkU1QmgydE9jWmw1X2p6bmVqaTNncVNkY0gtdHh5UGJWa2lib3d2dl95aGxQQ0NNVEVMX2JwVjBtOHBVSElTYlBiTWRFVUZBNFRDSXRvRi1Idw?oc=5&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        "content": "India smartphone market contracts; Xiaomi loses significant share",
-        "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNaVRJX3NoZmhqck51UTRXYzVaa2RJMk9zY3NQdHBVTlcxeDV4RTM4NGhhQS1kUlhxanhPNDg4Qkh3eC00TllfSzZUeHdIT25IcHRWY1B4TzZXbnBTdllWTWZIYno5OWpMb0MzbURTMEFhcVBpVjQ3bjc3SGI3OTdjQkpWM3VKeDlfTlBiV1JUc3JRNmI3dERDVEZ5YS0wMjBYZ3dYdVlFLU5qQnRN0gG0AUFVX3lxTE41SXJKd3gyU3NnVXBXS0dsV1JobEs4Wm1wZlJqdTYxeUVDTXI0MjFlbG5JXzRobFh6ZlZFT3NOamVBRHI2RDBCUDFmb1RzWXJmZHgzeUFrbTNSbmdsMWQtRWt3TWI1YzhQQjlqWVJCZU9ld09fSHVCQ3RkYjFGUjdCQl9WZzBHZjhHa1ZHQl9xWTRUOVVNc3VHcmpydU0wb0tjeXBuaW1DV19iNnpfQ1FESTBGRA?oc=5&hl=en-US&gl=US&ceid=US:en"
-      }
-    ],
-    "industry_overview": "Smartphone and IoT industries face intense competition with Samsung, Apple, and Huawei as key rivals. Moderate buyer power due to brand loyalty but significant competitive rivalry and technological threats. EV sector faces scrutiny after autonomous driving incidents.",
+    "business_description": "PDD Holdings, also known as Pinduoduo, is a leading Chinese e-commerce platform that focuses on group buying and social commerce. The company's business model leverages social networks to offer bulk discounts, driving sales through user-generated content and community engagement. Key revenue drivers include transaction fees, advertising, and merchant services. PDD targets a broad range of consumers, particularly in lower-tier cities, and has expanded into international markets and new segments like community group buying.",
     "business_segments": [
-      {
-        "segment_name": "Smartphones",
-        "revenue": "¥50.7B",
-        "growth": "+5% YoY",
-        "margin": "~15%",
-        "revenue_margin_absolute": "¥7.61B"
-      },
-      {
-        "segment_name": "IoT & Lifestyle Products",
-        "revenue": "¥23.4B",
-        "growth": "+12% YoY",
-        "margin": "~25%",
-        "revenue_margin_absolute": "¥5.85B"
-      },
-      {
-        "segment_name": "Internet Services",
-        "revenue": "¥12.8B",
-        "growth": "Stable",
-        "margin": "~65%",
-        "revenue_margin_absolute": "¥8.32B"
-      }
-    ],
-    "segment_summary": "Smartphones remain core with margin pressures, IoT shows +15% YoY growth driven by smart home devices, internet services deliver high margins (~65%). EV segment emerging as strategic priority.",
-    "peer_comparison": {
-      "current_company": {
-        "name": "Xiaomi Corporation (1810.HK)",
-        "metrics": {
-          "p_e_ratio": "18.5x",
-          "ev_ebitda": ""
-        }
-      },
-      "peer_comparisons": [
         {
-          "peer_name": "Apple",
-          "metrics": {
-            "p_e_ratio": "25x",
-            "ev_ebitda": ""
-          }
+            "growth": "28.91%",
+            "growth_direction": "up",
+            "margin": "45%",
+            "revenue": "$27.35B",
+            "revenue_margin_absolute": "$12.31B",
+            "segment_name": "Online Marketplace Services and Other"
         },
         {
-          "peer_name": "Samsung",
-          "metrics": {
-            "p_e_ratio": "20x",
-            "ev_ebitda": ""
-          }
+            "growth": "108.19%",
+            "growth_direction": "up",
+            "margin": "30%",
+            "revenue": "$27.07B",
+            "revenue_margin_absolute": "$8.12B",
+            "segment_name": "Transaction Services"
         },
         {
-          "peer_name": "NIO",
-          "metrics": {
-            "p_e_ratio": "~30x",
-            "ev_ebitda": ""
-          }
+            "growth": "35.42%",
+            "growth_direction": "up",
+            "margin": "20%",
+            "revenue": "$15.38B",
+            "revenue_margin_absolute": "$3.08B",
+            "segment_name": "Sales and Marketing"
         }
-      ],
-      "summary": "Undervalued relative to peers (18.5x P/E vs. 20-30x range)"
-    },
-    "revenue_forecasts": [
-      {
-        "segment_name": "Smartphones",
-        "trend": "Premium segment focus",
-        "growth_rate": "3% annual"
-      },
-      {
-        "segment_name": "IoT & Lifestyle",
-        "trend": "Smart home expansion",
-        "growth_rate": "15% annual"
-      },
-      {
-        "segment_name": "Internet Services",
-        "trend": "Digital adoption",
-        "growth_rate": "10% annual"
-      }
     ],
     "cash_flow_forecasts": [
-      {
-        "year": 1,
-        "amount": "¥20B"
-      },
-      {
-        "year": 2,
-        "amount": "¥23B"
-      },
-      {
-        "year": 3,
-        "amount": "¥26B"
-      },
-      {
-        "year": 4,
-        "amount": "¥29B"
-      },
-      {
-        "year": 5,
-        "amount": "¥32B"
-      }
+        {
+            "amount": "$20B",
+            "currency_symbol": "$",
+            "numeric_value": 20,
+            "unit": "B",
+            "year": 1
+        },
+        {
+            "amount": "$22B",
+            "currency_symbol": "$",
+            "numeric_value": 22,
+            "unit": "B",
+            "year": 2
+        },
+        {
+            "amount": "$24B",
+            "currency_symbol": "$",
+            "numeric_value": 24,
+            "unit": "B",
+            "year": 3
+        },
+        {
+            "amount": "$26B",
+            "currency_symbol": "$",
+            "numeric_value": 26,
+            "unit": "B",
+            "year": 4
+        },
+        {
+            "amount": "$28B",
+            "currency_symbol": "$",
+            "numeric_value": 28,
+            "unit": "B",
+            "year": 5
+        }
     ],
-    "cash_flow_summary": "Stable FCF supports R&D investments (¥20-32B over 5 years)",
-    "wacc": "9.2%",
-    "risk_factors": [
-      "Geopolitical tensions",
-      "EV regulatory scrutiny",
-      "Competitive pressures in India"
-    ],
-    "valuation_metrics": {
-      "initial_valuation": "¥540B",
-      "Weighted_valuation_range": "¥500B - ¥580B",
-      "final_valuation": "¥560B",
-      "final_valuation_description": "Positive News Impact: Xiaomi's recent share sale raised $5.5B, strengthening its EV strategy. Analysts maintain a 'Buy' rating, citing strong fundamentals. Mixed Market Sentiment: While Xiaomi regained the top smartphone spot in China, shipment declines in India pose challenges. Regulatory scrutiny post-SU7 crash may slow EV adoption temporarily but won't derail long-term prospects. Innovation Leadership: Xiaomi's modular phone concept and advancements in Leica camera integration reinforce its competitive edge. Brand Resilience: Despite setbacks, Xiaomi retains strong brand recognition and pricing power in emerging markets. Qualitative factors support a slightly higher valuation than DCF suggests, reflecting Xiaomi's innovation pipeline and market recovery potential."
-    },
+    "cash_flow_summary": "Stable free cash flow supports ongoing investments in technology and global expansion, driven by margin expansion and disciplined spending.",
+    "final_summary": "This report evaluates PDD Holdings using a structured framework. Key findings include robust segment performance, particularly in Online Marketplace Services and Transaction Services, supported by strong market positioning and growth drivers. Despite potential risks, PDD's valuation suggests significant upside. With a final valuation of $210B versus a current market cap of $166.64B, the stock is undervalued. A buy recommendation is warranted given its growth prospects and discounted valuation.",
+    "industry_overview": "The e-commerce industry in China is highly competitive, with key players such as Alibaba, JD.com, and Meituan. Porter\u2019s Five Forces analysis indicates high competitive rivalry, moderate buyer power due to brand loyalty, and low supplier power. Growth is driven by increasing internet penetration and rising consumer spending. PDD maintains a strong position through its unique social commerce model, but faces threats from regulatory changes and market saturation.",
     "market_comparison": {
-      "final_valuation": "¥560B",
-      "current_market_cap": "¥480B",
-      "value_per_share": "¥22.40",
-      "current_price": "¥19.20",
-      "valuation_status": "Undervalued",
-      "valuation_percentage": "+16.7%"
+        "current_market_cap": "$166.64B",
+        "current_price": "$117.38",
+        "final_valuation": "$210B",
+        "final_valuation_trend": "up",
+        "valuation_percentage": "15.0%",
+        "valuation_status": "undervalued",
+        "value_per_share": "$135.00",
+        "value_per_share_trend": "up"
+    },
+    "news_items": [
+        {
+            "content": "PDD Holdings to Report First Quarter 2025 Financial Results on May 27, 2025",
+            "link": "https://www.tradingview.com/news/reuters.com,2025-05-20:newsml_GNXbFbWwp:0-pdd-holdings-to-report-first-quarter-2025-unaudited-financial-results-on-may-27-2025/",
+            "source": "GLOBE NEWSWIRE"
+        },
+        {
+            "content": "Shares in Chinese e-commerce group PDD Holdings ($PDD) dropped today on fears that the European Union (EU) is planning a tax hike on low-cost packages",
+            "link": "https://www.tipranks.com/news/temu-owner-pdd-dives-as-eu-gets-set-to-mirror-trump-and-hike-taxes-on-low-cost-packages",
+            "source": "TipRanks"
+        },
+        {
+            "content": "Tairen Capital Ltd cut its stake in PDD Holdings Inc. (NASDAQ:PDD) by 87.1% in the fourth quarter",
+            "link": "https://www.marketbeat.com/instant-alerts/filing-pdd-holdings-inc-nasdaqpdd-shares-sold-by-tairen-capital-ltd-2025-05-18/",
+            "source": "MarketBeat"
+        },
+        {
+            "content": "PDD Holdings Inc. Sponsored ADR (PDD) stock sinks as market gains",
+            "link": "https://www.msn.com/en-us/money/topstocks/pdd-holdings-inc-sponsored-adr-pdd-stock-sinks-as-market-gains-what-you-should-know/ar-AA1EN392",
+            "source": "MSN Money"
+        },
+        {
+            "content": "Whales with a lot of money to spend have taken a noticeably bullish stance on PDD Holdings",
+            "link": "https://www.nasdaq.com/articles/check-out-what-whales-are-doing-pdd-2",
+            "source": "Nasdaq"
+        }
+    ],
+    "peer_comparison": {
+        "summary": "PDD Holdings' current P/E ratio (11.27x) ranks below peers like Alibaba (16.63x) and JD.com (30x). This suggests undervaluation relative to industry averages, potentially reflecting concerns about regulatory risks and market saturation.",
+        "valuation_comparison": {
+            "current_company": {
+                "metrics": {
+                    "ev_ebitda": "",
+                    "p_e_ratio": "11.27x"
+                },
+                "name": "PDD Holdings",
+                "peer_comparisons": [
+                    {
+                        "metrics": {
+                            "ev_ebitda": "",
+                            "p_e_ratio": "25.55x"
+                        },
+                        "peer_name": "Industry Avg"
+                    }
+                ]
+            }
+        }
     },
     "recommendation": {
-      "action": "Buy"
+        "action": "Buy"
     },
-    "final_summary": "Xiaomi demonstrates stable financials with ¥35B cash reserves and diversified growth across smartphones, IoT, and EVs. Undervalued by 16.7% with ¥560B fair value. Buy recommendation supported by innovation pipeline and market recovery potential."
+    "revenue_forecasts": [
+        {
+            "growth_rate": "10%",
+            "segment_name": "Online Marketplace Services and Other",
+            "trend": "steady growth",
+            "trend_direction": "up"
+        },
+        {
+            "growth_rate": "15%",
+            "segment_name": "Transaction Services",
+            "trend": "robust growth",
+            "trend_direction": "up"
+        },
+        {
+            "growth_rate": "5%",
+            "segment_name": "Sales and Marketing",
+            "trend": "moderate growth",
+            "trend_direction": "up"
+        }
+    ],
+    "risk_factors": [
+        "regulatory scrutiny",
+        "geopolitical tensions",
+        "macroeconomic slowdowns"
+    ],
+    "segment_quarter_info": "Dec 2024",
+    "segment_summary": "Robust growth in Transaction Services and steady growth in Online Marketplace Services indicate strong demand and effective marketing strategies. However, the high growth in Sales and Marketing expenses suggests that the company is investing heavily in customer acquisition and retention.",
+    "ticker_name": "PDD Holdings",
+    "valuation_metrics": {
+        "Weighted_valuation_range": "$180B-$220B",
+        "final_valuation": "$210B",
+        "final_valuation_description": "The final valuation has been adjusted to $210 billion, taking into account qualitative factors such as the company's strong market position and growth prospects. The latest news regarding PDD's leadership in the e-commerce sector and the positive stance of institutional investors further supports this higher valuation.",
+        "initial_valuation": "$200B"
+    },
+    "wacc": "9.5%"
 }
