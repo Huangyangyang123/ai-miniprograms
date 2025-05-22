@@ -154,7 +154,7 @@
             <view class="wxml2canvas-item item-value-text" data-text="{{item.segment_name}}">{{item.segment_name}}</view>
             <view class="wxml2canvas-item item-value-text" data-text="{{item.trend}}">{{item.trend}}</view>
             <view class="wxml2canvas-item item-value-status" style="margin-top: 15rpx;">
-              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.trend == 'up' ? arrow_up_image : arrow_down_image}}" />
+              <image class="wxml2canvas-item arrow-image" mode="aspectFit" src="{{item.trend_direction == 'up' ? arrow_up_image : arrow_down_image}}" />
               <view class="wxml2canvas-item trend-text" data-text="{{item.growth_rate}}">{{item.growth_rate}}</view>
               <view class="wxml2canvas-item trend-text" data-text="YoY" style="width: initial;">YoY</view>
             </view>
