@@ -1,3 +1,0 @@
-<view class="container">
-  <canvas canvas-id="graphCanvas" class="graph-canvas"></canvas>
-</view>
