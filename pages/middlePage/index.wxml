@@ -1,0 +1,11 @@
+<!--pages/middlePage/index.wxml-->
+<view class="middlepage-container">
+  <mp-html class="typewriter-text" content="{{displayedText}}" />
+
+  <view wx:if="{{showBtn}}" class="button-container">
+    <button class="button" bindtap="onButtonClick">
+      生成图表
+      <text class="chart-emoji">📈</text>
+    </button>
+  </view>
+</view>

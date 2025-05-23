@@ -294,8 +294,6 @@
     </view>
   </view>
 
-  <!-- <button catchtap="generateSharingCard">生成画布内容</button> -->
-
   <!-- 底部按钮 -->
   <view class="btn">
     <button class="save public" bindtap="onSaveImage">保存图片</button>

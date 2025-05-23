@@ -160,39 +160,6 @@ Page({
     this.initBars3()
   },
 
-  async generateSharingCard(){
-    // 等 image 加载完成后再截图
-
-    const canvas = this.selectComponent('#wxml2canvas');
-    await canvas.draw();
-    const filePath = await canvas.toTempFilePath();
-
-    const fs = wx.getFileSystemManager()
-    const that = this
-    fs.readFile({
-      filePath, // 这里可以直接使用 temp 路径
-      encoding: 'base64',
-      success(res) {
-        const base64Data = 'data:image/png;base64,' + res.data
-        console.log('base64Data==',base64Data)
-      that.setData({
-        filePath:base64Data
-      })
-        // 你可以将 base64Data 用作 image src，或上传
-      },
-      fail(err) {
-        console.error('读取文件失败', err)
-      }
-    })
-
-    console.log('filePath==',filePath)
-
-    wx.previewImage({
-      urls: [filePath],
-    });
-
-  },
-
   handleCatchDatas(res){
     wx.hideLoading();
 
@@ -267,14 +234,13 @@ Page({
       title: '加载中', // 可自定义提示文字
       mask: true         // 是否显示透明蒙层，防止触摸穿透
     });
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-22`).catch(err=>{
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-23`).catch(err=>{
       console.log('err==',err)
       wx.hideLoading();
       this.handleCatchDatas(mockDatas)
     })
 
-    this.handleCatchDatas(res)
-
+    this.handleCatchDatas(res.analysis_data)
     
   },
 
@@ -944,116 +910,41 @@ Page({
     }
   },
   // 保存长图到相册
-  // async onSaveImage(){
-
-  //   wx.showLoading({
-  //     title: '保存中', // 可自定义提示文字
-  //     mask: true         // 是否显示透明蒙层，防止触摸穿透
-  //   })
-
-  //   const that = this
-
-  //   const canvas = that.selectComponent('#wxml2canvas');
-  //   await canvas.draw();
-  //   const filePath = await canvas.toTempFilePath();
-
-  //   // 主动请求权限
-  //   wx.authorize({
-  //     scope: 'scope.writePhotosAlbum',
-  //     success() {
-  //       wx.saveImageToPhotosAlbum({
-  //         filePath,
-  //         success() {
-  //           wx.showToast({ title: '保存成功', icon: 'success' });
-  //           wx.hideLoading();
-  //         },
-  //         fail() {
-  //           wx.showToast({ title: '保存失败', icon: 'none' });
-  //           wx.hideLoading();
-  //         }
-  //       });
-  //     },
-  //     fail() {
-  //       // 用户拒绝授权，弹出设置引导
-  //       wx.hideLoading();
-  //       wx.showModal({
-  //         title: '提示',
-  //         content: '需要授权保存到相册，请到设置中开启权限',
-  //         success(res) {
-  //           if (res.confirm) {
-  //             wx.openSetting();
-  //           }
-  //         }
-  //       });
-  //     }
-  //   });
-
-  // //   wx.saveImageToPhotosAlbum({
-  // //     filePath,
-  // //     success() {
-  // //       wx.showToast({ title: '保存成功', icon: 'success' });
-  // //     },
-  // //     fail() {
-  // //       wx.showToast({ title: '保存失败', icon: 'none' });
-  // //     }
-  // // });
-  // }
 
   async onSaveImage() {
     wx.showLoading({ title: '保存中', mask: true });
+
     const canvas = this.selectComponent('#wxml2canvas');
+    console.log('canvas:', canvas);
     await canvas.draw(); // 等待绘制完成
 
     // 延迟确保安卓端渲染完成
-  setTimeout(async () => {
-    const filePath = await canvas.toTempFilePath();
-    console.log('filePath:', filePath);
+    setTimeout(async () => {
+      const filePath = await canvas.toTempFilePath();
+      console.log('filePath:', filePath);
 
-    // if (!filePath || !/^\/tmp\//.test(filePath)) {
-    //   wx.hideLoading();
-    //   wx.showToast({ title: '生成图片失败', icon: 'none' });
-    //   return;
-    // }
-
-    wx.saveImageToPhotosAlbum({
-      filePath,
-      success() {
-        wx.showToast({ title: '保存成功', icon: 'success' });
-        wx.hideLoading();
-      },
-      fail(err) {
-        wx.hideLoading();
-        if (err.errMsg && err.errMsg.indexOf('auth deny') !== -1) {
-          wx.showModal({
-            title: '提示',
-            content: '需要授权保存到相册，请到设置中开启权限',
-            success(res) {
-              if (res.confirm) wx.openSetting();
-            }
-          });
-        } else {
-          wx.showToast({ title: '保存失败', icon: 'none' });
+      wx.saveImageToPhotosAlbum({
+        filePath,
+        success() {
+          wx.showToast({ title: '保存成功', icon: 'success' });
+          wx.hideLoading();
+        },
+        fail(err) {
+          wx.hideLoading();
+          if (err.errMsg && err.errMsg.indexOf('auth deny') !== -1) {
+            wx.showModal({
+              title: '提示',
+              content: '需要授权保存到相册，请到设置中开启权限',
+              success(res) {
+                if (res.confirm) wx.openSetting();
+              }
+            });
+          } else {
+            wx.showToast({ title: '保存失败', icon: 'none' });
+          }
+          console.error('保存失败', err);
         }
-        console.error('保存失败', err);
-      }
-    });
-  }, 800); // 安卓建议延迟800ms以上
-
-    // // 直接用组件的 toTempFilePath 方法
-    // const filePath = await canvas.toTempFilePath();
-
-    // wx.saveImageToPhotosAlbum({
-    //   filePath,
-    //   success() {
-    //     wx.showToast({ title: '保存成功', icon: 'success' });
-    //     wx.hideLoading();
-    //   },
-    //   fail(err) {
-    //     wx.showToast({ title: '保存失败', icon: 'none' });
-    //     wx.hideLoading();
-    //     console.error('保存失败', err);
-    //   }
-    // });
-
+      });
+    }, 800); // 安卓建议延迟800ms以上
   }
 });

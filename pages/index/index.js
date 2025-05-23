@@ -16,7 +16,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     console.log('title==',title,id)
     wx.navigateTo({
-      url: `/pages/feature/index?title=${title}&id=${id}`,
+      url: `/pages/middlePage/index?title=${title}&id=${id}`,
     });
   },
 

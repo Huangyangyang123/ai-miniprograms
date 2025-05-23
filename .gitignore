@@ -6,4 +6,6 @@ logs
 miniprogram_npm
 *.less
 
+node_modules
+
 .DS_Store

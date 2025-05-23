@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/feature/index"
+    "pages/feature/index",
+    "pages/middlePage/index"
   ],
   "window": {
     "navigationBarTitleText": "我的小程序",

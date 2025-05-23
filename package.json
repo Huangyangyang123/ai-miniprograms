@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "marked": "^15.0.12",
+    "mp-html": "^2.5.1",
     "wxml2canvas-2d": "^1.3.0"
   }
 }

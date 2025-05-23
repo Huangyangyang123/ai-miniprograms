@@ -1,0 +1,35 @@
+/* pages/middlePage/index.wxss */
+.middlepage-container {
+  padding: 40rpx;
+  height: fit-content;
+  background: #f8f8f8;
+}
+.typewriter-text {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  white-space: pre-wrap;
+}
+
+.middlepage-container .button-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: fit-content;
+}
+
+.middlepage-container .button-container .button{
+  width: fit-content;
+  padding: 15rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  line-height: 100%;
+  color:#797777;
+  margin: 20rpx 0 50rpx;
+}
+
+
+.chart-emoji {
+  display: inline-block;
+  font-size: 36rpx;
+}
