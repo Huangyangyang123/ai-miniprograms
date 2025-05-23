@@ -46,9 +46,6 @@ Page({
    */
   async onShow() {
 
-
-
-
     wx.showLoading({
       title: 'Loading',
       mask: true
@@ -58,9 +55,26 @@ Page({
       console.error('请求失败:', err);
     })
 
-    this.setData({
-      fullText:res.analysis_txt
-    })
+    console.log('res:', res);
+
+    if(res.analysis_txt){
+      this.setData({
+        fullText:res.analysis_txt
+      })
+    }else{
+      console.log('res:zheli jinlaimlema');
+      wx.showToast({
+        title: '文本分析加载失败',
+        duration: 3000
+      });
+      setTimeout(() => {
+        wx.redirectTo({
+          url: `/pages/index/index`,
+        });
+      }, 3000); // 等待toast显示完再跳转
+      return;
+    }
+
 
     wx.hideLoading();
 
