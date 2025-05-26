@@ -1,8 +1,8 @@
 <view class="wxml2canvas-container feature-container">
   <view class="wxml2canvas-item section1">
     <image class="wxml2canvas-item logo" mode="aspectFit" src="{{detailLogo}}" />
-    <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（AAPL）"> 
-      Stock Valuation Analysis Report（AAPL）
+    <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（{{pageName}}）"> 
+      Stock Valuation Analysis Report（{{pageName}}）
     </view>
     <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy">
       Investment Recommendation: Buy</view>

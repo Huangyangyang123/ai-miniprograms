@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isSystemInfo } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isIdStartWithNumber } from '../../utils/index'
 
 Page({
   data: {
@@ -115,6 +115,7 @@ Page({
     showCavans3:true,
     pageTitle: '',
     pageId: '',
+    pageName:'',
     detailLogo:'',
     currentPercent: 0 // 当前百分比
   },
@@ -164,6 +165,10 @@ Page({
     wx.hideLoading();
 
     console.log('res==',res)
+
+    this.setData({
+      pageName:isIdStartWithNumber(this.data.pageId) ? res.ticker_name : this.data.pageId,
+    })
 
     const columnData2Datas = [...res.cash_flow_forecasts]?.map(item=>{
       return{
@@ -256,12 +261,12 @@ Page({
 
     mockDatas.business_segments.forEach((segment,index)=>{
       const ctx = wx.createCanvasContext(`ringCanvas${index}`,this);
-
+      console.log('segment.margin:', segment.margin);
       const centerX = width / 2;
       const centerY = height / 2;
       const radius = width / 2 - 20;
       const lineWidth = 10;
-      const target = segment.margin; // 当前业务板块的百分比
+      const target = parseFloat(segment.margin)//segment.margin; // 当前业务板块的百分比
       let current = 0;
 
       function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {

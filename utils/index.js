@@ -279,6 +279,10 @@
     return hex.length === 1 ? '0' + hex : hex;
  }
 
+export const isIdStartWithNumber = (id) => {
+  return /^\d/.test(id);
+};
+
  export const indexLists = [
   {
     title: '苹果',
