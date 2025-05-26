@@ -2,6 +2,7 @@
 
 import * as marked from '../../utils/marked.js'; // 引入 marked 库
 import serviceApi from '../../services/request'
+import { getTodayStr } from '../../utils/index'
 
 Page({
 
@@ -50,8 +51,9 @@ Page({
       title: 'Loading',
       mask: true
     });
-
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.id}&date=2025-05-23`).catch(err => {
+    const today = getTodayStr()// 例如 "2025-05-26"
+    console.log('today0==',today)
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.id}&date=${today}`).catch(err => {
       console.error('请求失败:', err);
     })
 

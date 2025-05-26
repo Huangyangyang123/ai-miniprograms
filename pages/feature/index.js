@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isIdStartWithNumber } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isIdStartWithNumber, getTodayStr } from '../../utils/index'
 
 Page({
   data: {
@@ -239,7 +239,9 @@ Page({
       title: '加载中', // 可自定义提示文字
       mask: true         // 是否显示透明蒙层，防止触摸穿透
     });
-    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=2025-05-23`).catch(err=>{
+    const today = getTodayStr()// 例如 "2025-05-26"
+    console.log('today==',today)
+    const res = await serviceApi(`/api/v1/stock/analysis/query?ticker_name=${this.data.pageId}&date=${today}`).catch(err=>{
       console.log('err==',err)
       wx.hideLoading();
       this.handleCatchDatas(mockDatas)

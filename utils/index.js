@@ -324,14 +324,14 @@ export const isIdStartWithNumber = (id) => {
     id:'03690.HK',
     image: '/assets/image/logo/meituan.png',
   }, 
-  {
-    title: '贵州茅台',
-    id:'600519',
-    image: '/assets/image/logo/moutai.png',
-  }, 
+  // {
+  //   title: '贵州茅台',
+  //   id:'600519',
+  //   image: '/assets/image/logo/moutai.png',
+  // }, 
   {
     title: '小米',
-    id:'1810.HK',
+    id:'01810.HK',
     image: '/assets/image/logo/xiaomi.png',
   },
   {
@@ -375,6 +375,16 @@ export const isSystemInfo = async()=>{
   if(isAndroid){
     return 'android'
   }
+}
+/**
+ * 获取当天日期字符串 yyyy-mm-dd
+ */
+export const getTodayStr = ()=>{
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
 }
  
 
