@@ -131,7 +131,7 @@ Page({
   onButtonClick(){
     console.log("Button clicked",title,id);
     const {title,id} = this.data;
-    wx.navigateTo({
+    wx.redirectTo({
       url: `/pages/feature/index?title=${title}&id=${id}`,
     });
   },

@@ -4,7 +4,7 @@
 
   <view wx:if="{{showBtn}}" class="button-container">
     <button class="button" bindtap="onButtonClick">
-      生成图表
+      点我生成详细图表
       <text class="chart-emoji">📈</text>
     </button>
   </view>

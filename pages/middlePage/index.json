@@ -1,4 +1,6 @@
 {
+  "backgroundTextStyle": "light",
+  "navigationBarTitleText": "公司报告分析",
   "usingComponents": {
     "mp-html": "mp-html"
   }
