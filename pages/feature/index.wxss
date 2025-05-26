@@ -59,6 +59,7 @@
   background: #AD0C13;
   display: inline-block;
   margin-left: -18rpx;
+  flex-shrink: 0; /* 关键：不允许被压缩 */
 }
 
 .section{
@@ -69,7 +70,6 @@
   font-family: Univers Next for HSBC;
   font-weight: 400;
   font-size: 48rpx;
-  line-height: 32rpx;
   color: #EDEDED;
   margin-left: 16rpx;
 }
