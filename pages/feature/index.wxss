@@ -11,6 +11,7 @@
   border-radius: 16rpx;
   text-align: center;
   line-height: 128rpx;
+  background-color: #fff;
 }
 
 .title-text{

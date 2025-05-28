@@ -4,8 +4,8 @@
     <view class="wxml2canvas-item title-text" data-text="Stock Valuation Analysis Report（{{pageName}}）"> 
       Stock Valuation Analysis Report（{{pageName}}）
     </view>
-    <view class="wxml2canvas-item tips" data-text="Investment Recommendation: Buy">
-      Investment Recommendation: Buy</view>
+    <view class="wxml2canvas-item tips" data-text="Investment Recommendation: {{mockDatas.recommendation.action}}">
+      Investment Recommendation: {{mockDatas.recommendation.action}}</view>
   </view>
   <view class="wxml2canvas-item section2 section">
     <view class="wxml2canvas-item title">
@@ -276,7 +276,7 @@
         <view class="wxml2canvas-item Evaluation" data-text="Evaluation">
           Evaluation
         </view>
-        <view class="wxml2canvas-item Evaluation-desc" data-text="Undervalued (Difference: +3.8%)">
+        <view class="wxml2canvas-item Evaluation-desc" data-text="{{mockDatas.market_comparison.valuation_status}} (Difference: +3.8%)">
           Undervalued (Difference: {{mockDatas.market_comparison.valuation_percentage}})
         </view>
       </view>

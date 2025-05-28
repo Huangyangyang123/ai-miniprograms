@@ -297,6 +297,7 @@ export const isIdStartWithNumber = (id) => {
   {
     title: '理想汽车',
     id:'02015.HK',
+    markName:'LI',
     image: '/assets/image/logo/lixiang.png',
   },
   {
@@ -307,6 +308,7 @@ export const isIdStartWithNumber = (id) => {
   {
     title: '伯克希尔',//哈撒韦
     id:'BRK',
+    markName:'BRK.b',
     image: '/assets/image/logo/brk.png',
   }, 
   {

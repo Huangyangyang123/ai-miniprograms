@@ -1,6 +1,6 @@
 import serviceApi from '../../services/request'
 import { mockDatas } from '../../utils/mock.js';
-import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, isIdStartWithNumber, getTodayStr } from '../../utils/index'
+import { drawBar, drawHorizontalArrow, drawValueText, renderCanvasToImg, indexLists, getTodayStr } from '../../utils/index'
 
 Page({
   data: {
@@ -166,8 +166,11 @@ Page({
 
     console.log('res==',res)
 
+    const markName = indexLists.find(item => item.id === this.data.pageId).markName || this.data.pageId
+    
+    console.log('markName==',markName)
     this.setData({
-      pageName:isIdStartWithNumber(this.data.pageId) ? res.ticker_name : this.data.pageId,
+      pageName: markName,
     })
 
     const columnData2Datas = [...res.cash_flow_forecasts]?.map(item=>{
