@@ -4,6 +4,6 @@
     <view class="box">
       <image mode="aspectFit" class="image_logos" src="{{item.image}}" />
     </view>
-    <view class="text">{{item.title}}</view>
+    <view class="text">{{item.markName || item.id}}</view>
   </view>
 </view>

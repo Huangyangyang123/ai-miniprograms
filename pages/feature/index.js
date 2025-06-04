@@ -117,6 +117,7 @@ Page({
     pageId: '',
     pageName:'',
     detailLogo:'',
+    valuation_percentage:'',
     currentPercent: 0 // 当前百分比
   },
 
@@ -132,22 +133,10 @@ Page({
       pageId: id,
       detailLogo:indexLists.find(item => item.id === id).image
     });
-
-    await this.initDatas()
-
-    // 初始化加载动画
-    this.initBars()
-    this.initBars2()
-    this.initBars3()
   },
 
 
   async onReady() {
-    await this.initDatas()
-    this.initRings();
-    this.initBars()
-    this.initBars2()
-    this.initBars3()
   },
 
   /**
@@ -155,10 +144,12 @@ Page({
    */
   async onShow() {
     await this.initDatas()
-    this.initRings()
-    this.initBars()
-    this.initBars2()
-    this.initBars3()
+    setTimeout(()=>{
+      this.initRings()
+      this.initBars()
+      this.initBars2()
+      this.initBars3()
+    },2000)
   },
 
   handleCatchDatas(res){
@@ -167,10 +158,13 @@ Page({
     console.log('res==',res)
 
     const markName = indexLists.find(item => item.id === this.data.pageId).markName || this.data.pageId
+
+    const valuation_percentage = String(res.market_comparison.valuation_percentage).includes('%') ? res.market_comparison.valuation_percentage : `${res.market_comparison.valuation_percentage}%`
     
-    console.log('markName==',markName)
+    console.log('markName==',markName,valuation_percentage)
     this.setData({
       pageName: markName,
+      valuation_percentage
     })
 
     const columnData2Datas = [...res.cash_flow_forecasts]?.map(item=>{
@@ -210,21 +204,20 @@ Page({
 
     const columnDatas = [
       {
-        value:Number(res.peer_comparison.valuation_comparison.current_company.peer_comparisons[0].metrics.p_e_ratio.replace('x','')),
+        value:Number(res.peer_comparison?.valuation_comparison?.current_company?.peer_comparisons[0]?.metrics.p_e_ratio?.replace('x','')),
         color: '#cccccc',
         type: 'gray',
-        label: res.peer_comparison.valuation_comparison.current_company.peer_comparisons[0].metrics.p_e_ratio,
+        label: res.peer_comparison?.valuation_comparison.current_company.peer_comparisons[0].metrics.p_e_ratio,
       },
       {
-        value:Number(res.peer_comparison.valuation_comparison.current_company.metrics.p_e_ratio.replace('x','')),
+        value:Number(res.peer_comparison?.valuation_comparison?.current_company?.metrics?.p_e_ratio?.replace('x','')),
         color: '#e63946',
         type: 'red',
-        label: res.peer_comparison.valuation_comparison.current_company.metrics.p_e_ratio,
+        label: res.peer_comparison?.valuation_comparison.current_company.metrics.p_e_ratio,
       }
     ]
 
     console.log('columnDatas00',columnDatas)
-
 
     this.setData({
       mockDatas:res,
@@ -254,7 +247,7 @@ Page({
     
   },
 
-  initRings() {
+  async initRings() {
 
     const width = 75;  // 画布宽度（单位 px，和 wxml 保持一致，150rpx≈75px，建议用 px 单位）
     const height = 75;
@@ -272,6 +265,7 @@ Page({
       const radius = width / 2 - 20;
       const lineWidth = 10;
       const target = parseFloat(segment.margin)//segment.margin; // 当前业务板块的百分比
+      console.log('target==',target)
       let current = 0;
 
       function drawDashedLine(ctx, x1, y1, x2, y2, dashLen = 4, gapLen = 3) {
@@ -376,7 +370,7 @@ Page({
     })
   },
 
-  initBars(){
+  async initBars(){
     const { columnData, barWidth, categoryLabels } = this.data;
     const ctx = wx.createCanvasContext('columnChart');
     const canvasWidth = 300;
@@ -458,7 +452,7 @@ Page({
 
   },
 
-  initBars2(){
+  async initBars2(){
     const { columnData2, barWidth2 } = this.data;
     const ctx = wx.createCanvasContext('columnChart2');
     const canvasWidth = 300;
@@ -914,47 +908,62 @@ Page({
   // 分享给微信好友
   onShareAppMessage: function () {
     return {
-      title: '公司财报报告',
+      title: 'Company financial report', // 分享标题
       path: `/pages/feature/index?title=${this.data.pageTitle}&id=${this.data.pageId}`, // 分享后打开的页面路径
       imageUrl: '/assets/image/share.png' // 可选，自定义分享图片
     }
   },
+
+  canvasToImg(canvasId,that){
+    return new Promise((resolve, reject) => {
+      wx.canvasToTempFilePath({
+        canvasId,
+        success: res => resolve(res.tempFilePath),
+        fail: reject
+      }, that);
+    })
+  },
+
   // 保存长图到相册
-
   async onSaveImage() {
-    wx.showLoading({ title: '保存中', mask: true });
+    wx.showLoading({ title: 'Saving', mask: true });
 
-    const canvas = this.selectComponent('#wxml2canvas');
-    console.log('canvas:', canvas);
-    await canvas.draw(); // 等待绘制完成
+    const canvasIds = ['ringCanvas0','ringCanvas1','ringCanvas2','columnChart', 'columnChart2', 'valuationChart'];
+
+    const filePaths = await Promise.all(
+      canvasIds.map(id => this.canvasToImg(id, this))
+    );
 
     // 延迟确保安卓端渲染完成
     setTimeout(async () => {
+      const canvas = this.selectComponent('#wxml2canvas');
+      console.log('canvas:', canvas);
+      await canvas.draw(); // 等待绘制完成
       const filePath = await canvas.toTempFilePath();
       console.log('filePath:', filePath);
 
       wx.saveImageToPhotosAlbum({
         filePath,
         success() {
-          wx.showToast({ title: '保存成功', icon: 'success' });
+          wx.showToast({ title: 'save sucess', icon: 'success' });
           wx.hideLoading();
         },
         fail(err) {
           wx.hideLoading();
           if (err.errMsg && err.errMsg.indexOf('auth deny') !== -1) {
             wx.showModal({
-              title: '提示',
-              content: '需要授权保存到相册，请到设置中开启权限',
+              title: 'prompt',
+              content: 'Authorization is required to save to the album, please enable permission in settings',
               success(res) {
                 if (res.confirm) wx.openSetting();
               }
             });
           } else {
-            wx.showToast({ title: '保存失败', icon: 'none' });
+            wx.showToast({ title: 'save fail', icon: 'none' });
           }
-          console.error('保存失败', err);
+          console.error('save fail', err);
         }
       });
-    }, 800); // 安卓建议延迟800ms以上
+    }, 1000 * 5);
   }
 });

@@ -221,7 +221,7 @@
       <view class="wxml2canvas-item bar-desc">
         <view class="wxml2canvas-item bar-icon bar-hollow"></view>
         <view class="wxml2canvas-item bar-desc-text">
-          <view class="wxml2canvas-item" data-text="Weighted Valuation Range: {{mockDatas.valuation_metrics.iWeighted_valuation_range}}">Weighted Valuation Range: {{mockDatas.valuation_metrics.iWeighted_valuation_range}}</view>
+          <view class="wxml2canvas-item" data-text="Weighted Valuation Range: {{mockDatas.valuation_metrics.Weighted_valuation_range}}">Weighted Valuation Range: {{mockDatas.valuation_metrics.Weighted_valuation_range}}</view>
           <view class="wxml2canvas-item" data-text="Explanation: Variations based on growth rates and discount rate">Explanation: Variations based on growth rates and discount rate</view>
           <view class="wxml2canvas-item" data-text="assumptions.">assumptions.</view>
         </view>
@@ -276,8 +276,8 @@
         <view class="wxml2canvas-item Evaluation" data-text="Evaluation">
           Evaluation
         </view>
-        <view class="wxml2canvas-item Evaluation-desc" data-text="{{mockDatas.market_comparison.valuation_status}} (Difference: +3.8%)">
-          Undervalued (Difference: {{mockDatas.market_comparison.valuation_percentage}})
+        <view class="wxml2canvas-item Evaluation-desc" data-text="{{mockDatas.market_comparison.valuation_status}} (Difference: {{valuation_percentage}})">
+          {{mockDatas.market_comparison.valuation_status}} (Difference: {{valuation_percentage}})
         </view>
       </view>
     </view>
@@ -296,9 +296,9 @@
 
   <!-- 底部按钮 -->
   <view class="btn">
-    <button class="save public" bindtap="onSaveImage">保存图片</button>
+    <button class="save public" bindtap="onSaveImage">save image</button>
     <!-- open-type="share" 只在 button 组件上生效。 -->
-    <button class="share public" open-type="share">分享</button>
+    <button class="share public" open-type="share">share</button>
   </view>
 
   <wxml2canvas id="wxml2canvas" />
